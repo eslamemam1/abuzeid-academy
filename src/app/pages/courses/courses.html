@@ -1,0 +1,39 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">كتالوج الدورات</span>
+    <h1>الدورات الأونلاين والمسجلة</h1>
+    <p>رياضيات، إحصاء، حساب ذهني، ورياضيات فيدية للطلاب الجامعيين وجميع الأعمار.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <form class="search-box" style="max-width: 100%;" (submit)="$event.preventDefault(); applySearch()">
+      <input type="search" [formControl]="search" placeholder="ابحث باسم الدورة أو المدرب" />
+      <button type="submit">بحث</button>
+    </form>
+
+    <div class="filters">
+      @for (category of categories; track category.id) {
+        <button
+          type="button"
+          class="chip"
+          [class.active]="selectedCategory() === category.id"
+          (click)="setCategory(category.id)"
+        >
+          {{ category.label }}
+        </button>
+      }
+    </div>
+
+    <p class="meta" style="margin-bottom: 18px;">عدد النتائج: {{ results().length }}</p>
+
+    <div class="grid-3">
+      @for (course of results(); track course.id) {
+        <app-course-card [course]="course" />
+      } @empty {
+        <p>لا توجد دورات مطابقة لبحثك حالياً.</p>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,106 @@
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">منصة الدورات الأونلاين</span>
+      <h1>أكاديمية أبو زيد</h1>
+      <p class="lead">
+        متعة التدرب والتدريب.. دورات تفاعلية مميزة للطلاب الجامعيين والخريجين
+        في الرياضيات والإحصاء والحساب الذهني والرياضيات الفيدية.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" routerLink="/courses">استعرض الدورات</a>
+        <a class="btn btn-ghost" routerLink="/about">تعرف على الأكاديمية</a>
+      </div>
+      <form class="search-box" (submit)="$event.preventDefault(); goToCourses()">
+        <input type="search" [formControl]="search" placeholder="ابحث عن دورة مثل MATH 207 أو إحصاء" />
+        <button type="submit">بحث</button>
+      </form>
+    </div>
+
+    <div class="hero-card">
+      <h3>لماذا يتعلم الطلاب معنا؟</h3>
+      <div class="stat-row">
+        <div class="stat"><b>11</b> مدربين ماهرين</div>
+        <div class="stat"><b>97+</b> طلاب سعداء</div>
+        <div class="stat"><b>أونلاين</b> تعلم بلا حدود</div>
+        <div class="stat"><b>حضوري</b> في جدة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">الدورات</span>
+      <h2>أحدث الدورات الأونلاين</h2>
+      <p>دورات مسجلة وتفاعلية في الرياضيات الجامعية، الإحصاء، وتنمية المهارات الذهنية.</p>
+    </div>
+    <div class="grid-3">
+      @for (course of featured; track course.id) {
+        <app-course-card [course]="course" />
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">مميزاتنا</span>
+      <h2>تعلم بطريقتك، وفي وقتك</h2>
+    </div>
+    <div class="grid-4">
+      <article class="feature-card">
+        <div class="icon-circle">1</div>
+        <h3>دورات أونلاين</h3>
+        <p class="meta">نمّ مهاراتك بأفضل طرق التعلم من أي مكان.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon-circle">2</div>
+        <h3>دورات حضورية</h3>
+        <p class="meta">لقاءات تفاعلية في جدة لمن يفضل التعلم المباشر.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon-circle">3</div>
+        <h3>مدربون محترفون</h3>
+        <p class="meta">ابدأ التعلم مع مدربين متخصصين في الرياضيات والإحصاء.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon-circle">4</div>
+        <h3>شهادات معتمدة</h3>
+        <p class="meta">تحقق من صلاحية شهادتك مباشرة من المنصة.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2>كن مدربًا في أكاديمية أبو زيد</h2>
+        <p>هل ترغب أن تكون جزءًا من منصتنا؟ سجّل كمدرب وابدأ في الكسب الآن.</p>
+      </div>
+      <a class="btn btn-navy" routerLink="/contact">تواصل للانضمام</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">المدربون</span>
+      <h2>تعلم مع أفضل المدربين</h2>
+    </div>
+    <div class="grid-3">
+      @for (person of instructors; track person.name) {
+        <article class="instructor-card">
+          <h3>{{ person.name }}</h3>
+          <p class="eyebrow" style="margin-top: 8px;">{{ person.role }}</p>
+          <p class="meta">{{ person.bio }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>

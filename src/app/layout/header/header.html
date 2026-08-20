@@ -1,0 +1,36 @@
+<header class="site-header">
+  <div class="container topbar">
+    <span>جدة - المملكة العربية السعودية</span>
+    <span>00966532220315 — 00966545290624</span>
+  </div>
+
+  <div class="container navbar">
+    <a class="brand" routerLink="/" (click)="closeMenu()">
+      <span class="brand-mark">أز</span>
+      <span>أكاديمية أبو زيد</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">الرئيسية</a></li>
+        <li><a routerLink="/courses" routerLinkActive="active">الدورات</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">عن الأكاديمية</a></li>
+        <li><a routerLink="/certificate" routerLinkActive="active">تحقق الشهادة</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">اتصل بنا</a></li>
+      </ul>
+    </nav>
+
+    <a class="btn btn-primary nav-cta" routerLink="/courses">استعرض الدورات</a>
+    <button class="menu-btn" type="button" (click)="toggleMenu()">القائمة</button>
+  </div>
+
+  @if (menuOpen()) {
+    <nav class="mobile-nav open" (click)="closeMenu()">
+      <a routerLink="/">الرئيسية</a>
+      <a routerLink="/courses">الدورات</a>
+      <a routerLink="/about">عن الأكاديمية</a>
+      <a routerLink="/certificate">تحقق الشهادة</a>
+      <a routerLink="/contact">اتصل بنا</a>
+    </nav>
+  }
+</header>

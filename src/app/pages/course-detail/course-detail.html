@@ -1,0 +1,42 @@
+<section class="page-hero">
+  <div class="container">
+    <a routerLink="/courses" class="eyebrow">العودة للدورات</a>
+    <h1>{{ course()?.title || 'الدورة غير موجودة' }}</h1>
+    <p>{{ course()?.instructor }} • {{ course()?.typeLabel }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    @if (course(); as item) {
+      <div class="course-detail">
+        <div class="panel">
+          <span class="eyebrow">{{ item.categoryLabel }}</span>
+          <h2>{{ item.title }}</h2>
+          <p class="lead">{{ item.description }}</p>
+          <h3 style="margin: 24px 0 10px; color: var(--navy);">ماذا ستتعلم؟</h3>
+          <ul class="outcomes">
+            @for (outcome of item.outcomes; track outcome) {
+              <li>{{ outcome }}</li>
+            }
+          </ul>
+        </div>
+
+        <aside class="panel">
+          <p class="price">${{ item.price }}</p>
+          <p class="meta">{{ item.lessons }} درس</p>
+          <p class="meta">المدة: {{ item.duration }}</p>
+          <p class="meta">التاريخ: {{ item.date }}</p>
+          <p class="meta">المسجلون: {{ item.students }}</p>
+          <p class="meta">التقييم: {{ item.rating }} / 5</p>
+          <a class="btn btn-primary" style="width: 100%; margin-top: 18px;" routerLink="/contact">سجّل في الدورة</a>
+        </aside>
+      </div>
+    } @else {
+      <div class="panel">
+        <p>لم نعثر على هذه الدورة.</p>
+        <a class="btn btn-navy" routerLink="/courses">تصفح الدورات</a>
+      </div>
+    }
+  </div>
+</section>

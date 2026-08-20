@@ -1,0 +1,33 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">التوثيق</span>
+    <h1>صلاحية الشهادة</h1>
+    <p>للتحقق من صلاحية الشهادة أدخل كود الشهادة واضغط على تحقق.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width: 640px;">
+    <form class="panel form" (submit)="$event.preventDefault(); verify()">
+      <label>
+        رقم الشهادة
+        <input type="text" [formControl]="code" placeholder="مثال: AZ-2026A1" />
+        @if (code.touched && code.invalid) {
+          <span class="error">أدخل كود الشهادة</span>
+        }
+      </label>
+      <button class="btn btn-primary" type="submit">تحقق</button>
+
+      @if (result === 'valid') {
+        <div class="success">
+          <strong>الشهادة صالحة</strong>
+          <p>هذه الشهادة صادرة عن أكاديمية أبو زيد لدورة أونلاين.</p>
+        </div>
+      }
+
+      @if (result === 'invalid') {
+        <p class="error">لم يتم العثور على شهادة بهذا الكود. استخدم صيغة مثل AZ-2026A1.</p>
+      }
+    </form>
+  </div>
+</section>

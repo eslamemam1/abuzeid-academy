@@ -1,0 +1,17 @@
+@if (course(); as item) {
+  <article class="course-card">
+    <div class="course-cover" [class]="item.category">
+      <span class="badge">{{ item.typeLabel }}</span>
+      <span>{{ item.categoryLabel }}</span>
+    </div>
+    <div class="course-body">
+      <h3>{{ item.title }}</h3>
+      <p class="meta">المدرب: {{ item.instructor }}</p>
+      <p class="meta">{{ item.lessons }} درس • {{ item.duration }} • تقييم {{ item.rating }}</p>
+      <div class="price-row">
+        <span class="price">${{ item.price }}</span>
+        <a class="btn btn-navy" [routerLink]="['/courses', item.id]">التفاصيل</a>
+      </div>
+    </div>
+  </article>
+}

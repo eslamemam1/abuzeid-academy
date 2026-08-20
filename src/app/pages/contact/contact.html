@@ -1,0 +1,60 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">نحن قريبون منك</span>
+    <h1>اتصل بنا</h1>
+    <p>للاشتراك في دورة أو الانضمام كمدرب، أرسل رسالتك وسنعود إليك.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid-2">
+    <div class="panel">
+      <h2>بيانات التواصل</h2>
+      <p class="lead">العنوان: جدة - المملكة العربية السعودية</p>
+      <p class="lead">الجوال: 00966532220315 — 00966545290624</p>
+      <p class="lead">البريد: info@smart-academy.tech</p>
+    </div>
+
+    <form class="panel form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
+      <h2>إرسال رسالة</h2>
+
+      @if (sent) {
+        <p class="success">تم استلام رسالتك. شكراً لتواصلك مع أكاديمية أبو زيد.</p>
+      }
+
+      <label>
+        الاسم
+        <input type="text" formControlName="name" />
+        @if (form.controls.name.touched && form.controls.name.invalid) {
+          <span class="error">الاسم مطلوب</span>
+        }
+      </label>
+      <label>
+        البريد الإلكتروني
+        <input type="email" formControlName="email" />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="error">أدخل بريداً صحيحاً</span>
+        }
+      </label>
+      <label>
+        رقم الموبايل
+        <input type="tel" formControlName="phone" />
+        @if (form.controls.phone.touched && form.controls.phone.invalid) {
+          <span class="error">رقم الموبايل مطلوب</span>
+        }
+      </label>
+      <label>
+        العنوان
+        <input type="text" formControlName="subject" />
+      </label>
+      <label>
+        الرسالة
+        <textarea rows="5" formControlName="message"></textarea>
+        @if (form.controls.message.touched && form.controls.message.invalid) {
+          <span class="error">الرسالة مطلوبة</span>
+        }
+      </label>
+      <button class="btn btn-primary" type="submit">إرسال الرسالة</button>
+    </form>
+  </div>
+</section>
