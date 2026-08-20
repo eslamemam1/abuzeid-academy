@@ -13,6 +13,7 @@ import { TeacherDashboard } from './pages/teacher-dashboard/teacher-dashboard';
 import { TeacherStudents } from './pages/teacher-students/teacher-students';
 import { TeacherGrades } from './pages/teacher-grades/teacher-grades';
 import { TeacherCourses } from './pages/teacher-courses/teacher-courses';
+import { TeacherMessages } from './pages/teacher-messages/teacher-messages';
 import { authGuard, guestGuard, roleGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -41,6 +42,12 @@ export const routes: Routes = [
     component: TeacherCourses,
     canActivate: [authGuard, roleGuard('teacher')],
     title: 'المواد | أكاديمية أبو زيد',
+  },
+  {
+    path: 'teacher/messages',
+    component: TeacherMessages,
+    canActivate: [authGuard, roleGuard('teacher')],
+    title: 'الرسائل | أكاديمية أبو زيد',
   },
   {
     path: 'teacher/students',

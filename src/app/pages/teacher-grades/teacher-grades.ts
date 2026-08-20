@@ -4,6 +4,7 @@ import { EnrollmentService } from '../../services/enrollment';
 import { ExamService } from '../../services/exam';
 import { GradeService } from '../../services/grade';
 import { Enrollment, Exam } from '../../models/account';
+import { yearLabel } from '../../models/labels';
 import { Panel, TeacherShell } from '../../shared';
 
 @Component({
@@ -15,6 +16,7 @@ export class TeacherGrades {
   private readonly examsApi = inject(ExamService);
   private readonly enrollmentsApi = inject(EnrollmentService);
   private readonly gradesApi = inject(GradeService);
+  protected readonly yearLabel = yearLabel;
 
   protected readonly exams = this.examsApi.exams;
   protected readonly students = signal<Enrollment[]>([]);
@@ -39,6 +41,10 @@ export class TeacherGrades {
     if (!exam) {
       this.students.set([]);
       return;
+    }
+    const year = exam.courses?.year_level;
+    if (year) {
+      await this.enrollmentsApi.enrollYearInCourse(exam.course_id, year);
     }
 
     const [enrollments, grades] = await Promise.all([

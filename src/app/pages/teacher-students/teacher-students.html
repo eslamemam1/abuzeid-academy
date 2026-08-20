@@ -1,6 +1,18 @@
-<app-teacher-shell title="الطلاب" subtitle="كل الطلاب المسجّلين في أكاديمية أبو زيد.">
+<app-teacher-shell title="الطلاب" subtitle="كل الطلاب حسب السنة: أولى أو ثانية بكالوريا.">
+  <div class="dash-nav">
+    <button class="chip" type="button" [class.active]="yearFilter() === 'all'" (click)="setFilter('all')">
+      الكل ({{ students().length }})
+    </button>
+    <button class="chip" type="button" [class.active]="yearFilter() === 'year1'" (click)="setFilter('year1')">
+      سنة أولى ({{ countFor('year1') }})
+    </button>
+    <button class="chip" type="button" [class.active]="yearFilter() === 'year2'" (click)="setFilter('year2')">
+      سنة ثانية ({{ countFor('year2') }})
+    </button>
+  </div>
+
   <app-panel>
-    <p class="meta">عدد الطلاب: {{ students().length }}</p>
+    <p class="meta">المعروض: {{ visible().length }}</p>
     <div class="table-wrap">
       <table class="table">
         <thead>
@@ -12,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (student of students(); track student.id) {
+          @for (student of visible(); track student.id) {
             <tr>
               <td>{{ student.full_name }}</td>
               <td>{{ student.email || '—' }}</td>
@@ -21,7 +33,7 @@
             </tr>
           } @empty {
             <tr>
-              <td colspan="4">لا يوجد طلاب حتى الآن.</td>
+              <td colspan="4">لا يوجد طلاب في التصنيف ده.</td>
             </tr>
           }
         </tbody>

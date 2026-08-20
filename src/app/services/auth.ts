@@ -60,6 +60,20 @@ export class AuthService {
     });
 
     if (error) {
+      const code = (error.code || '').toLowerCase();
+      const text = (error.message || '').toLowerCase();
+      if (code === 'email_address_invalid' || text.includes('email address') && text.includes('invalid')) {
+        return { error: 'email_invalid' };
+      }
+      if (code === 'user_already_exists' || text.includes('already registered')) {
+        return { error: 'email_exists' };
+      }
+      if (code === 'weak_password' || text.includes('leaked') || text.includes('weak')) {
+        return { error: 'weak_password' };
+      }
+      if (code === 'over_email_send_rate_limit' || text.includes('rate limit')) {
+        return { error: 'email_rate_limit' };
+      }
       return { error: 'signup_failed' };
     }
 
@@ -96,6 +110,10 @@ export class AuthService {
 
   dashboardLink(): string {
     return this.isTeacher() ? '/teacher' : '/student';
+  }
+
+  async refreshProfile(): Promise<void> {
+    await this.loadProfile(this.currentUser()?.id);
   }
 
   private async restoreSession(): Promise<void> {

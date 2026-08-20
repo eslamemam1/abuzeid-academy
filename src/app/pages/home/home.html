@@ -33,8 +33,8 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">المواد</span>
-      <h2>أبرز دورات السنة الأولى والثانية</h2>
-      <p>برمجة وذكاء اصطناعي بنفس أسلوب الامتحان السنوي، بشرح المهندس إسلام إمام.</p>
+      <h2>{{ featuredTitle() }}</h2>
+      <p>{{ featuredSubtitle() }}</p>
     </div>
     <div class="grid-3">
       @for (course of featured(); track course.id) {

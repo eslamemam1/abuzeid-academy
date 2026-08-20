@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CourseService } from '../../services/course';
 import { AcademyContentService } from '../../services/academy-content';
+import { yearLabel } from '../../models/labels';
 import { CourseCard } from '../../shared';
 
 @Component({
@@ -18,6 +19,16 @@ export class Home {
   protected readonly search = new FormControl('', { nonNullable: true });
   protected readonly featured = computed(() => this.coursesApi.getFeatured());
   protected readonly instructors = this.content.instructors;
+  protected readonly featuredTitle = computed(() => {
+    const year = this.coursesApi.studentYear();
+    return year ? `أبرز مواد ${yearLabel(year)}` : 'أبرز دورات السنة الأولى والثانية';
+  });
+  protected readonly featuredSubtitle = computed(() => {
+    const year = this.coursesApi.studentYear();
+    return year
+      ? `مواد سنتك فقط. السنة التانية مش هتظهر هنا.`
+      : 'برمجة وذكاء اصطناعي بنفس أسلوب الامتحان السنوي، بشرح المهندس إسلام إمام.';
+  });
 
   protected goToCourses(): void {
     const q = this.search.value.trim();

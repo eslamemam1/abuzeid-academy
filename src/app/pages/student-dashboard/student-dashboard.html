@@ -8,72 +8,147 @@
   <div class="container">
     <app-alert-banner [message]="message()" [error]="error()" />
 
-    <div class="grid-3" style="margin-bottom: 28px;">
-      <app-stat-card [value]="enrollments().length" label="مواد مسجّل فيها" />
-      <app-stat-card [value]="grades().length" label="درجات مسجّلة" />
-      <app-stat-card [value]="profile()?.phone || '—'" label="رقم الموبايل" />
-    </div>
-
-    <app-panel title="موادي" [spaced]="true">
-      <div class="table-wrap">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>المادة</th>
-              <th>التصنيف</th>
-              <th>السنة</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (course of courses(); track course.id) {
-              <tr>
-                <td>{{ course.title }}</td>
-                <td>{{ categoryLabel(course.category) }}</td>
-                <td>{{ yearLabel(course.year_level) }}</td>
-                <td>
-                  @if (isEnrolled(course.id)) {
-                    <span class="badge-ok">مسجّل</span>
-                  } @else {
-                    <button class="btn btn-navy" type="button" (click)="enroll(course.id)">سجّل</button>
-                  }
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+    @if (!profile()?.year_level) {
+      <app-panel title="اختَر سنتك الدراسية" [spaced]="true">
+        <p class="meta">علشان نعرض لك المواد والامتحانات المناسبة: أولى ولا ثانية بكالوريا؟</p>
+        <div class="dash-nav">
+          <button class="btn btn-navy" type="button" [disabled]="savingYear()" (click)="setYear('year1')">
+            سنة أولى بكالوريا
+          </button>
+          <button class="btn btn-navy" type="button" [disabled]="savingYear()" (click)="setYear('year2')">
+            سنة ثانية بكالوريا
+          </button>
+        </div>
+      </app-panel>
+    } @else {
+      <div class="grid-3" style="margin-bottom: 28px;">
+        <app-stat-card [value]="myCourses().length" label="مواد سنتك" />
+        <app-stat-card [value]="upcomingExams().length" label="امتحانات قادمة" />
+        <app-stat-card [value]="grades().length" label="درجات مسجّلة" />
       </div>
-    </app-panel>
 
-    <app-panel title="درجاتي والامتحانات">
-      @if (grades().length === 0) {
-        <p class="meta">لسه مفيش درجات. لما المدرس يرصد الامتحان هتظهر هنا.</p>
-      } @else {
+      <app-panel title="مواد {{ yearLabel(profile()?.year_level) }}" [spaced]="true">
+        <p class="meta">مواد سنتك بس. السنة التانية مش هتظهر، ومش هتقدر تسجّل فيها.</p>
         <div class="table-wrap">
           <table class="table">
             <thead>
               <tr>
-                <th>الامتحان</th>
                 <th>المادة</th>
-                <th>الدرجة</th>
-                <th>من</th>
-                <th>ملاحظة</th>
+                <th>التصنيف</th>
+                <th>الحالة</th>
               </tr>
             </thead>
             <tbody>
-              @for (grade of grades(); track grade.id) {
+              @for (course of myCourses(); track course.id) {
                 <tr>
-                  <td>{{ grade.exams?.title }}</td>
-                  <td>{{ grade.exams?.courses?.title }}</td>
-                  <td>{{ grade.score ?? '—' }}</td>
-                  <td>{{ grade.exams?.total_marks }}</td>
-                  <td>{{ grade.notes || '—' }}</td>
+                  <td>{{ course.title }}</td>
+                  <td>{{ categoryLabel(course.category) }}</td>
+                  <td><span class="badge-ok">مسجّل</span></td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="3">لسه مفيش مواد لسنتك. لما المدرس يضيف مادة هتظهر هنا تلقائي.</td>
                 </tr>
               }
             </tbody>
           </table>
         </div>
-      }
-    </app-panel>
+      </app-panel>
+
+      <app-panel title="الامتحانات القادمة" [spaced]="true">
+        @if (upcomingExams().length === 0) {
+          <p class="meta">مفيش امتحانات قادمة حالياً.</p>
+        } @else {
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>الامتحان</th>
+                  <th>المادة</th>
+                  <th>التاريخ</th>
+                  <th>الدرجة النهائية</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (exam of upcomingExams(); track exam.id) {
+                  <tr>
+                    <td>{{ exam.title }}</td>
+                    <td>{{ exam.courses?.title }}</td>
+                    <td>{{ exam.exam_date || 'يُحدد لاحقاً' }}</td>
+                    <td>{{ exam.total_marks }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </app-panel>
+
+      <app-panel title="درجاتي" [spaced]="true">
+        @if (grades().length === 0) {
+          <p class="meta">لسه مفيش درجات. لما المدرس يرصد الامتحان هتظهر هنا.</p>
+        } @else {
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>الامتحان</th>
+                  <th>المادة</th>
+                  <th>الدرجة</th>
+                  <th>من</th>
+                  <th>ملاحظة</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (grade of grades(); track grade.id) {
+                  <tr>
+                    <td>{{ grade.exams?.title }}</td>
+                    <td>{{ grade.exams?.courses?.title }}</td>
+                    <td>{{ grade.score ?? '—' }}</td>
+                    <td>{{ grade.exams?.total_marks }}</td>
+                    <td>{{ grade.notes || '—' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </app-panel>
+
+      <app-panel title="الامتحانات السابقة">
+        @if (pastExams().length === 0) {
+          <p class="meta">لسه مفيش امتحانات خلصت.</p>
+        } @else {
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>الامتحان</th>
+                  <th>المادة</th>
+                  <th>التاريخ</th>
+                  <th>درجتك</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (exam of pastExams(); track exam.id) {
+                  <tr>
+                    <td>{{ exam.title }}</td>
+                    <td>{{ exam.courses?.title }}</td>
+                    <td>{{ exam.exam_date }}</td>
+                    <td>
+                      @if (gradeForExam(exam.id); as grade) {
+                        {{ grade.score ?? '—' }} / {{ exam.total_marks }}
+                      } @else {
+                        لم تُرصد بعد
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </app-panel>
+    }
   </div>
 </section>

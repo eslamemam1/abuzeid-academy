@@ -1,7 +1,7 @@
 <app-page-hero
-  eyebrow="مواد السنة الأولى والثانية"
+  [eyebrow]="heroEyebrow()"
   title="دورات البرمجة والذكاء الاصطناعي"
-  subtitle="بكالوريا مصرية • نظام سنوي • شرح المهندس إسلام إمام"
+  [subtitle]="heroSubtitle()"
 />
 
 <section class="section">
@@ -12,7 +12,7 @@
     </form>
 
     <div class="filters">
-      @for (category of categories; track category.id) {
+      @for (category of categories(); track category.id) {
         <button
           type="button"
           class="chip"

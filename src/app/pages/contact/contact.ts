@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AcademyContentService } from '../../services/academy-content';
 import { ContactService } from '../../services/contact';
@@ -15,7 +15,9 @@ export class Contact {
   private readonly contactApi = inject(ContactService);
 
   protected readonly academy = this.content.academy;
-  protected sent = false;
+  protected readonly sent = signal(false);
+  protected readonly saving = signal(false);
+  protected readonly error = signal('');
 
   protected readonly form = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -30,8 +32,17 @@ export class Contact {
       this.form.markAllAsTouched();
       return;
     }
-    await this.contactApi.send(this.form.getRawValue());
-    this.sent = true;
-    this.form.reset({ subject: 'استفسار عن مادة البرمجة' });
+    this.saving.set(true);
+    this.error.set('');
+    this.sent.set(false);
+    try {
+      await this.contactApi.send(this.form.getRawValue());
+      this.sent.set(true);
+      this.form.reset({ subject: 'استفسار عن مادة البرمجة' });
+    } catch {
+      this.error.set('تعذر إرسال الرسالة. حاول مرة أخرى.');
+    } finally {
+      this.saving.set(false);
+    }
   }
 }

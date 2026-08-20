@@ -24,10 +24,14 @@
         <label>
           السنة الدراسية
           <select formControlName="yearLevel">
-            <option value="">اختر السنة</option>
+            <option value="">اختر: أولى ولا ثانية بكالوريا؟</option>
             <option value="year1">سنة أولى بكالوريا</option>
             <option value="year2">سنة ثانية بكالوريا</option>
           </select>
+          <span class="meta">سنة أولى تسجّل مواد أولى بس، وسنة تانية تسجّل مواد تانية بس. مفيش خلط بين السنتين.</span>
+          @if (form.controls.yearLevel.touched && form.controls.yearLevel.invalid) {
+            <span class="error">اختَر السنة الدراسية.</span>
+          }
         </label>
         <label>
           كلمة المرور

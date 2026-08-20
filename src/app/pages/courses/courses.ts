@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { CourseService } from '../../services/course';
 import { FILTERS, CourseFilter } from '../../models/course';
+import { yearLabel } from '../../models/labels';
 import { CourseCard, PageHero } from '../../shared';
 
 @Component({
@@ -17,18 +18,42 @@ export class Courses {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  protected readonly categories = FILTERS;
   protected readonly search = new FormControl('', { nonNullable: true });
   protected readonly selectedCategory = signal<CourseFilter>('all');
+  protected readonly studentYear = computed(() => this.coursesApi.studentYear());
+  protected readonly categories = computed(() => {
+    const year = this.studentYear();
+    if (!year) {
+      return FILTERS;
+    }
+    return [
+      { id: 'all' as const, label: year === 'year1' ? 'مواد السنة الأولى' : 'مواد السنة الثانية' },
+      { id: 'programming' as const, label: 'البرمجة' },
+      { id: 'ai' as const, label: 'الذكاء الاصطناعي' },
+    ];
+  });
+  protected readonly heroEyebrow = computed(() => {
+    const year = this.studentYear();
+    return year ? `مواد ${yearLabel(year)} فقط` : 'مواد السنة الأولى والثانية';
+  });
+  protected readonly heroSubtitle = computed(() => {
+    const year = this.studentYear();
+    return year
+      ? `أنت مسجّل في ${yearLabel(year)}، فهتظهر لك مواد السنة دي بس.`
+      : 'بكالوريا مصرية • نظام سنوي • شرح المهندس إسلام إمام';
+  });
 
   private readonly query = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('q') ?? '')),
     { initialValue: '' },
   );
 
-  protected readonly results = computed(() =>
-    this.coursesApi.search(this.query(), this.selectedCategory()),
-  );
+  protected readonly results = computed(() => {
+    const selected = this.selectedCategory();
+    const filter =
+      this.studentYear() && (selected === 'year1' || selected === 'year2') ? 'all' : selected;
+    return this.coursesApi.search(this.query(), filter);
+  });
 
   constructor() {
     const initial = this.route.snapshot.queryParamMap.get('q') ?? '';
@@ -43,6 +68,10 @@ export class Courses {
   }
 
   protected setCategory(id: CourseFilter): void {
+    if (this.studentYear() && (id === 'year1' || id === 'year2')) {
+      this.selectedCategory.set('all');
+      return;
+    }
     this.selectedCategory.set(id);
   }
 }

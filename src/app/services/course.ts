@@ -1,9 +1,10 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { supabase } from '../core/supabase-client';
 import { ACADEMY } from '../data/academy.data';
 import { DbCourse, YearLevel } from '../models/account';
 import { Course, CourseFilter } from '../models/course';
 import { categoryLabel, yearLabel } from '../models/labels';
+import { AuthService } from './auth';
 
 export interface CourseInput {
   title: string;
@@ -14,6 +15,7 @@ export interface CourseInput {
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
+  private readonly auth = inject(AuthService);
   private readonly courseRows = signal<DbCourse[]>([]);
   private readonly catalogRows = signal<Course[]>([]);
 
@@ -69,30 +71,49 @@ export class CourseService {
   }
 
   getAll(): Course[] {
-    return this.catalog();
+    return this.visibleCatalog();
   }
 
   getFeatured(): Course[] {
-    return this.catalog().slice(0, 6);
+    return this.visibleCatalog().slice(0, 6);
   }
 
   getById(id: string): Course | undefined {
-    return this.catalog().find((course) => course.id === id);
+    return this.visibleCatalog().find((course) => course.id === id);
   }
 
   search(term: string, filter: CourseFilter = 'all'): Course[] {
     const query = term.trim();
-    return this.catalog().filter((course) => {
+    const lockedYear = this.studentYear();
+    return this.visibleCatalog().filter((course) => {
+      const matchesYear = !lockedYear || course.level === lockedYear;
       const matchesFilter =
-        filter === 'all' || course.category === filter || course.level === filter;
+        filter === 'all' ||
+        course.category === filter ||
+        (!lockedYear && course.level === filter);
       const matchesQuery =
         !query ||
         course.title.includes(query) ||
         course.instructor.includes(query) ||
         course.categoryLabel.includes(query) ||
         course.levelLabel.includes(query);
-      return matchesFilter && matchesQuery;
+      return matchesYear && matchesFilter && matchesQuery;
     });
+  }
+
+  studentYear(): YearLevel | null {
+    return this.auth.isStudent() ? this.auth.profile()?.year_level ?? null : null;
+  }
+
+  private visibleCatalog(): Course[] {
+    const year = this.studentYear();
+    if (!this.auth.isStudent()) {
+      return this.catalog();
+    }
+    if (!year) {
+      return [];
+    }
+    return this.catalog().filter((course) => course.level === year);
   }
 
   private slugFromTitle(title: string): string {

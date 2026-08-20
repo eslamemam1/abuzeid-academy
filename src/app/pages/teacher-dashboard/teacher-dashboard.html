@@ -8,7 +8,7 @@
     <app-stat-card [value]="students().length" label="عدد الطلاب" />
     <app-stat-card [value]="courses().length" label="المواد" link="/teacher/courses" />
     <app-stat-card [value]="exams().length" label="الامتحانات" />
-    <app-stat-card [value]="profile()?.full_name || 'المهندس إسلام إمام'" label="الحساب الحالي" />
+    <app-stat-card [value]="unreadCount()" label="رسائل جديدة" link="/teacher/messages" />
   </div>
 
   <div class="grid-2">
@@ -19,7 +19,7 @@
           <select formControlName="course_id">
             <option value="">اختر المادة</option>
             @for (course of courses(); track course.id) {
-              <option [value]="course.id">{{ course.title }}</option>
+              <option [value]="course.id">{{ course.title }} — {{ yearLabel(course.year_level) }}</option>
             }
           </select>
         </label>

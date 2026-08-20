@@ -9,9 +9,11 @@
       الامتحان
       <select [ngModel]="selectedExamId()" (ngModelChange)="onExamChange($event)">
         <option value="">اختر امتحانًا</option>
-        @for (exam of exams(); track exam.id) {
-          <option [value]="exam.id">{{ exam.title }} — {{ exam.courses?.title }}</option>
-        }
+          @for (exam of exams(); track exam.id) {
+            <option [value]="exam.id">
+              {{ exam.title }} — {{ exam.courses?.title }} — {{ yearLabel(exam.courses?.year_level) }}
+            </option>
+          }
       </select>
     </label>
 
@@ -51,7 +53,7 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="4">لا يوجد طلاب مسجّلين في مادة هذا الامتحان.</td>
+                <td colspan="4">لا يوجد طلاب في سنة المادة دي. لما طالب يسجّل بنفس السنة هيظهر هنا.</td>
               </tr>
             }
           </tbody>

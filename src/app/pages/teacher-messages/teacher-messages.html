@@ -1,0 +1,48 @@
+<app-teacher-shell
+  title="رسائل التواصل"
+  subtitle="كل الرسائل اللي بتتبعت من صفحة اتصل بنا."
+>
+  <app-panel>
+    <p class="meta">غير مقروءة: {{ unreadCount() }} • الكل: {{ messages().length }}</p>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>التاريخ</th>
+            <th>الاسم</th>
+            <th>التواصل</th>
+            <th>الموضوع</th>
+            <th>الرسالة</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of messages(); track row.id) {
+            <tr [class.unread-row]="!row.read_at">
+              <td>{{ formatDate(row.created_at) }}</td>
+              <td>{{ row.name }}</td>
+              <td>
+                <div>{{ row.email }}</div>
+                <div class="meta">{{ row.phone }}</div>
+              </td>
+              <td>{{ row.subject || '—' }}</td>
+              <td>{{ row.message }}</td>
+              <td>
+                @if (!row.read_at) {
+                  <button class="btn btn-navy" type="button" (click)="markRead(row)">تمّت القراءة</button>
+                } @else {
+                  <span class="badge-ok">مقروءة</span>
+                }
+                <button class="btn btn-danger" type="button" style="margin-right: 8px;" (click)="remove(row)">حذف</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6">لسه مفيش رسائل من صفحة اتصل بنا.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </app-panel>
+</app-teacher-shell>

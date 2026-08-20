@@ -7,6 +7,9 @@
       [routerLinkActiveOptions]="{ exact: item.exact === true }"
     >
       {{ item.label }}
+      @if (item.path === '/teacher/messages' && unreadCount() > 0) {
+        <span class="nav-badge">{{ unreadCount() }}</span>
+      }
     </a>
   }
 </div>

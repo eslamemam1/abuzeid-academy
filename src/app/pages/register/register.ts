@@ -25,7 +25,7 @@ export class Register {
       fullName: ['', [Validators.required, Validators.maxLength(80)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(120)]],
       phone: ['', [Validators.maxLength(20)]],
-      yearLevel: ['' as YearLevel | ''],
+      yearLevel: ['' as YearLevel | '', Validators.required],
       password: ['', [Validators.required, Validators.pattern(strongPasswordPattern)]],
       confirmPassword: ['', Validators.required],
     },
@@ -51,7 +51,7 @@ export class Register {
     this.loading = false;
 
     if (result.error) {
-      this.error = sanitizeAuthError();
+      this.error = this.errorFor(result.error);
       return;
     }
 
@@ -61,5 +61,21 @@ export class Register {
     }
 
     await this.router.navigateByUrl(homeByRole(this.auth.role()));
+  }
+
+  private errorFor(code: string): string {
+    if (code === 'email_invalid') {
+      return 'الإيميل غير مقبول. استخدم بريدًا حقيقيًا يعمل، مش عنوان تجريبي.';
+    }
+    if (code === 'email_exists') {
+      return 'هذا الإيميل مسجّل بالفعل. سجّل الدخول أو استخدم بريدًا آخر.';
+    }
+    if (code === 'weak_password') {
+      return 'كلمة المرور ضعيفة أو شائعة جدًا. غيّرها لكلمة أقوى.';
+    }
+    if (code === 'email_rate_limit') {
+      return 'محاولات التسجيل كتيرة دلوقتي. استنى حوالي ساعة ثم حاول مرة أخرى.';
+    }
+    return sanitizeAuthError();
   }
 }

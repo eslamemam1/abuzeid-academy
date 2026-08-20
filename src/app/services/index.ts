@@ -10,6 +10,6 @@ export { CertificateService } from './certificate';
 export type { CourseInput } from './course';
 export type { ExamInput } from './exam';
 export type { GradeInput } from './grade';
-export type { ContactMessage } from './contact';
+export type { ContactMessage, DbContactMessage } from './contact';
 export type { CertificateStatus } from './certificate';
 export type { NavItem } from './academy-content';

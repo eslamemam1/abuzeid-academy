@@ -25,6 +25,7 @@ export class AcademyContentService {
     { path: '/teacher/courses', label: 'المواد' },
     { path: '/teacher/students', label: 'الطلاب' },
     { path: '/teacher/grades', label: 'رصد الدرجات' },
+    { path: '/teacher/messages', label: 'الرسائل' },
   ];
 
   readonly teacherEyebrow = 'لوحة المهندس إسلام إمام';

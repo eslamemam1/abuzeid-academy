@@ -28,6 +28,12 @@
 
     <div class="nav-cta header-auth">
       @if (auth.user()) {
+        @if (auth.isTeacher() && contacts.unreadCount() > 0) {
+          <a class="btn btn-ghost" routerLink="/teacher/messages">
+            رسائل
+            <span class="nav-badge">{{ contacts.unreadCount() }}</span>
+          </a>
+        }
         <a class="btn btn-primary" [routerLink]="auth.dashboardLink()">لوحتي</a>
         <button class="btn btn-ghost" type="button" (click)="logout()">خروج</button>
       } @else {
@@ -44,6 +50,9 @@
         <a [routerLink]="item.path">{{ item.label }}</a>
       }
       @if (auth.user()) {
+        @if (auth.isTeacher() && contacts.unreadCount() > 0) {
+          <a routerLink="/teacher/messages">رسائل ({{ contacts.unreadCount() }})</a>
+        }
         <a [routerLink]="auth.dashboardLink()">لوحتي</a>
         <a href="#" (click)="$event.preventDefault(); logout()">خروج</a>
       } @else {

@@ -16,9 +16,10 @@
 
     <app-panel title="إرسال رسالة">
       <form class="form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
-        @if (sent) {
-          <app-alert-banner message="تم استلام رسالتك. شكراً لتواصلك مع أكاديمية أبو زيد." />
+        @if (sent()) {
+          <app-alert-banner message="تم إرسال رسالتك للمهندس إسلام إمام. هيتواصل معاك في أقرب وقت." />
         }
+        <app-alert-banner [error]="error()" />
 
         <label>
           الاسم
@@ -52,7 +53,9 @@
             <span class="error">الرسالة مطلوبة</span>
           }
         </label>
-        <button class="btn btn-primary" type="submit">إرسال الرسالة</button>
+        <button class="btn btn-primary" type="submit" [disabled]="saving()">
+          {{ saving() ? 'جاري الإرسال...' : 'إرسال الرسالة' }}
+        </button>
       </form>
     </app-panel>
   </div>
