@@ -1,23 +1,23 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { CourseCard } from '../../shared/course-card/course-card';
 import { CourseService } from '../../services/course';
-import { INSTRUCTORS } from '../../data/academy.data';
+import { AcademyContentService } from '../../services/academy-content';
+import { CourseCard } from '../../shared';
 
 @Component({
   selector: 'app-home',
   imports: [ReactiveFormsModule, RouterLink, CourseCard],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
 })
 export class Home {
   private readonly coursesApi = inject(CourseService);
+  private readonly content = inject(AcademyContentService);
   private readonly router = inject(Router);
 
   protected readonly search = new FormControl('', { nonNullable: true });
-  protected readonly featured = this.coursesApi.getFeatured();
-  protected readonly instructors = INSTRUCTORS;
+  protected readonly featured = computed(() => this.coursesApi.getFeatured());
+  protected readonly instructors = this.content.instructors;
 
   protected goToCourses(): void {
     const q = this.search.value.trim();

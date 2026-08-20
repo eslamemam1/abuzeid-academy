@@ -7,9 +7,9 @@
     <div class="course-body">
       <h3>{{ item.title }}</h3>
       <p class="meta">المدرب: {{ item.instructor }}</p>
-      <p class="meta">{{ item.lessons }} درس • {{ item.duration }} • {{ item.typeLabel }}</p>
+      <p class="meta">{{ item.duration }} • {{ item.typeLabel }}</p>
       <div class="price-row">
-        <span class="price">{{ item.price }} ج.م</span>
+        <span class="price">{{ item.price > 0 ? item.price + ' ج.م' : 'أونلاين' }}</span>
         <a class="btn btn-navy" [routerLink]="['/courses', item.id]">التفاصيل</a>
       </div>
     </div>

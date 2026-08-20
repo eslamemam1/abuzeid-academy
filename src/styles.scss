@@ -158,6 +158,15 @@ p {
   background: var(--navy-soft);
 }
 
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.92);
+}
+
 .grid-4,
 .grid-3,
 .grid-2 {
@@ -351,10 +360,15 @@ p {
 .feature-card,
 .instructor-card,
 .article-card {
+  display: block;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.panel-spaced {
+  margin-bottom: 22px;
 }
 
 .course-card {

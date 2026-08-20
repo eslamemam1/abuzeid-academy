@@ -1,0 +1,16 @@
+<section class="page-hero">
+  <div class="container">
+    @if (eyebrow()) {
+      @if (eyebrowLink()) {
+        <a [routerLink]="eyebrowLink()" class="eyebrow">{{ eyebrow() }}</a>
+      } @else {
+        <span class="eyebrow">{{ eyebrow() }}</span>
+      }
+    }
+    <h1>{{ title() }}</h1>
+    @if (subtitle()) {
+      <p>{{ subtitle() }}</p>
+    }
+    <ng-content />
+  </div>
+</section>

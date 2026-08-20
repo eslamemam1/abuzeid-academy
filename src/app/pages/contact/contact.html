@@ -1,62 +1,59 @@
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">نحن قريبون منك</span>
-    <h1>اتصل بنا</h1>
-    <p>للتسجيل في مادة البرمجة أو الذكاء الاصطناعي، اترك رسالتك للمهندس إسلام إمام.</p>
-  </div>
-</section>
+<app-page-hero
+  eyebrow="نحن قريبون منك"
+  title="اتصل بنا"
+  subtitle="للتسجيل في مادة البرمجة أو الذكاء الاصطناعي، اترك رسالتك للمهندس إسلام إمام."
+/>
 
 <section class="section">
   <div class="container grid-2">
-    <div class="panel">
-      <h2>بيانات التواصل</h2>
-      <p class="lead">الأكاديمية: أكاديمية أبو زيد</p>
-      <p class="lead">المؤسس والمدرب: المهندس إسلام إمام (إسلام أبو زيد)</p>
+    <app-panel title="بيانات التواصل">
+      <p class="lead">الأكاديمية: {{ academy.name }}</p>
+      <p class="lead">المؤسس والمدرب: {{ academy.founderFull }}</p>
       <p class="lead">الجمهور: طلاب السنة الأولى والثانية بكالوريا - مصر</p>
-      <p class="lead">النظام: سنوي</p>
+      <p class="lead">النظام: {{ academy.system }}</p>
       <p class="lead">أرسل بياناتك من النموذج وسنعود إليك لتأكيد الحجز.</p>
-    </div>
+    </app-panel>
 
-    <form class="panel form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
-      <h2>إرسال رسالة</h2>
+    <app-panel title="إرسال رسالة">
+      <form class="form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
+        @if (sent) {
+          <app-alert-banner message="تم استلام رسالتك. شكراً لتواصلك مع أكاديمية أبو زيد." />
+        }
 
-      @if (sent) {
-        <p class="success">تم استلام رسالتك. شكراً لتواصلك مع أكاديمية أبو زيد.</p>
-      }
-
-      <label>
-        الاسم
-        <input type="text" formControlName="name" />
-        @if (form.controls.name.touched && form.controls.name.invalid) {
-          <span class="error">الاسم مطلوب</span>
-        }
-      </label>
-      <label>
-        البريد الإلكتروني
-        <input type="email" formControlName="email" />
-        @if (form.controls.email.touched && form.controls.email.invalid) {
-          <span class="error">أدخل بريداً صحيحاً</span>
-        }
-      </label>
-      <label>
-        رقم الموبايل
-        <input type="tel" formControlName="phone" />
-        @if (form.controls.phone.touched && form.controls.phone.invalid) {
-          <span class="error">رقم الموبايل مطلوب</span>
-        }
-      </label>
-      <label>
-        المادة
-        <input type="text" formControlName="subject" />
-      </label>
-      <label>
-        الرسالة
-        <textarea rows="5" formControlName="message"></textarea>
-        @if (form.controls.message.touched && form.controls.message.invalid) {
-          <span class="error">الرسالة مطلوبة</span>
-        }
-      </label>
-      <button class="btn btn-primary" type="submit">إرسال الرسالة</button>
-    </form>
+        <label>
+          الاسم
+          <input type="text" formControlName="name" />
+          @if (form.controls.name.touched && form.controls.name.invalid) {
+            <span class="error">الاسم مطلوب</span>
+          }
+        </label>
+        <label>
+          البريد الإلكتروني
+          <input type="email" formControlName="email" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <span class="error">أدخل بريداً صحيحاً</span>
+          }
+        </label>
+        <label>
+          رقم الموبايل
+          <input type="tel" formControlName="phone" />
+          @if (form.controls.phone.touched && form.controls.phone.invalid) {
+            <span class="error">رقم الموبايل مطلوب</span>
+          }
+        </label>
+        <label>
+          المادة
+          <input type="text" formControlName="subject" />
+        </label>
+        <label>
+          الرسالة
+          <textarea rows="5" formControlName="message"></textarea>
+          @if (form.controls.message.touched && form.controls.message.invalid) {
+            <span class="error">الرسالة مطلوبة</span>
+          }
+        </label>
+        <button class="btn btn-primary" type="submit">إرسال الرسالة</button>
+      </form>
+    </app-panel>
   </div>
 </section>

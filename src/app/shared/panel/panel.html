@@ -1,0 +1,6 @@
+<section class="panel" [class.panel-spaced]="spaced()">
+  @if (title()) {
+    <h2>{{ title() }}</h2>
+  }
+  <ng-content />
+</section>

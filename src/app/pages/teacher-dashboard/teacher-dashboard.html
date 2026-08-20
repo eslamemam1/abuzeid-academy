@@ -1,87 +1,55 @@
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">حساب المدرس</span>
-    <h1>لوحة المهندس إسلام إمام</h1>
-    <p>تابع الطلاب، الامتحانات، والدرجات من مكان واحد.</p>
+<app-teacher-shell
+  title="لوحة المهندس إسلام إمام"
+  subtitle="تابع الطلاب، الامتحانات، والدرجات من مكان واحد."
+  [message]="message()"
+  [error]="error()"
+>
+  <div class="grid-4" style="margin-bottom: 28px;">
+    <app-stat-card [value]="students().length" label="عدد الطلاب" />
+    <app-stat-card [value]="courses().length" label="المواد" link="/teacher/courses" />
+    <app-stat-card [value]="exams().length" label="الامتحانات" />
+    <app-stat-card [value]="profile()?.full_name || 'المهندس إسلام إمام'" label="الحساب الحالي" />
   </div>
-</section>
 
-<section class="section">
-  <div class="container">
-    <div class="dash-nav">
-      <a class="chip active" routerLink="/teacher">نظرة عامة</a>
-      <a class="chip" routerLink="/teacher/students">الطلاب</a>
-      <a class="chip" routerLink="/teacher/grades">رصد الدرجات</a>
-    </div>
-
-    @if (message()) {
-      <p class="success">{{ message() }}</p>
-    }
-    @if (error()) {
-      <p class="error">{{ error() }}</p>
-    }
-
-    <div class="grid-4" style="margin-bottom: 28px;">
-      <article class="feature-card">
-        <h3>{{ students().length }}</h3>
-        <p class="meta">عدد الطلاب</p>
-      </article>
-      <article class="feature-card">
-        <h3>{{ courses().length }}</h3>
-        <p class="meta">المواد</p>
-      </article>
-      <article class="feature-card">
-        <h3>{{ exams().length }}</h3>
-        <p class="meta">الامتحانات</p>
-      </article>
-      <article class="feature-card">
-        <h3>{{ profile()?.full_name || 'المدرس' }}</h3>
-        <p class="meta">الحساب الحالي</p>
-      </article>
-    </div>
-
-    <div class="grid-2">
-      <div class="panel">
-        <h2>إنشاء امتحان</h2>
-        <form class="form" [formGroup]="examForm" (submit)="$event.preventDefault(); createExam()">
-          <label>
-            المادة
-            <select formControlName="course_id">
-              <option value="">اختر المادة</option>
-              @for (course of courses(); track course.id) {
-                <option [value]="course.id">{{ course.title }}</option>
-              }
-            </select>
-          </label>
-          <label>
-            عنوان الامتحان
-            <input type="text" formControlName="title" placeholder="امتحان نصف العام" />
-          </label>
-          <label>
-            التاريخ
-            <input type="date" formControlName="exam_date" />
-          </label>
-          <label>
-            الدرجة النهائية
-            <input type="number" formControlName="total_marks" />
-          </label>
-          <button class="btn btn-primary" type="submit">حفظ الامتحان</button>
-        </form>
-      </div>
-
-      <div class="panel">
-        <h2>آخر الطلاب</h2>
-        @if (students().length === 0) {
-          <p class="meta">لسه مفيش طلاب مسجّلين.</p>
-        } @else {
-          <ul class="outcomes">
-            @for (student of students().slice(0, 6); track student.id) {
-              <li>{{ student.full_name }} — {{ yearLabel(student.year_level) }}</li>
+  <div class="grid-2">
+    <app-panel title="إنشاء امتحان">
+      <form class="form" [formGroup]="examForm" (submit)="$event.preventDefault(); createExam()">
+        <label>
+          المادة
+          <select formControlName="course_id">
+            <option value="">اختر المادة</option>
+            @for (course of courses(); track course.id) {
+              <option [value]="course.id">{{ course.title }}</option>
             }
-          </ul>
-          <a class="btn btn-outline" routerLink="/teacher/students">عرض كل الطلاب</a>
-        }
-      </div>
-    </div>
+          </select>
+        </label>
+        <label>
+          عنوان الامتحان
+          <input type="text" formControlName="title" placeholder="امتحان نصف العام" />
+        </label>
+        <label>
+          التاريخ
+          <input type="date" formControlName="exam_date" />
+        </label>
+        <label>
+          الدرجة النهائية
+          <input type="number" formControlName="total_marks" />
+        </label>
+        <button class="btn btn-primary" type="submit">حفظ الامتحان</button>
+      </form>
+    </app-panel>
+
+    <app-panel title="آخر الطلاب">
+      @if (students().length === 0) {
+        <p class="meta">لسه مفيش طلاب مسجّلين.</p>
+      } @else {
+        <ul class="outcomes">
+          @for (student of students().slice(0, 6); track student.id) {
+            <li>{{ student.full_name }} — {{ yearLabel(student.year_level) }}</li>
+          }
+        </ul>
+        <a class="btn btn-outline" routerLink="/teacher/students">عرض كل الطلاب</a>
+      }
+    </app-panel>
   </div>
-</section>
+</app-teacher-shell>

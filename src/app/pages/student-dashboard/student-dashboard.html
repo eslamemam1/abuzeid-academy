@@ -1,37 +1,20 @@
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">حساب الطالب</span>
-    <h1>مرحبًا {{ profile()?.full_name || 'طالب' }}</h1>
-    <p>{{ yearLabel(profile()?.year_level) }} • أكاديمية أبو زيد</p>
-  </div>
-</section>
+<app-page-hero
+  [eyebrow]="eyebrow"
+  [title]="'مرحبًا ' + (profile()?.full_name || 'طالب')"
+  [subtitle]="yearLabel(profile()?.year_level) + ' • ' + 'أكاديمية أبو زيد'"
+/>
 
 <section class="section">
   <div class="container">
-    @if (message()) {
-      <p class="success">{{ message() }}</p>
-    }
-    @if (error()) {
-      <p class="error">{{ error() }}</p>
-    }
+    <app-alert-banner [message]="message()" [error]="error()" />
 
     <div class="grid-3" style="margin-bottom: 28px;">
-      <article class="feature-card">
-        <h3>{{ enrollments().length }}</h3>
-        <p class="meta">مواد مسجّل فيها</p>
-      </article>
-      <article class="feature-card">
-        <h3>{{ grades().length }}</h3>
-        <p class="meta">درجات مسجّلة</p>
-      </article>
-      <article class="feature-card">
-        <h3>{{ profile()?.phone || '—' }}</h3>
-        <p class="meta">رقم الموبايل</p>
-      </article>
+      <app-stat-card [value]="enrollments().length" label="مواد مسجّل فيها" />
+      <app-stat-card [value]="grades().length" label="درجات مسجّلة" />
+      <app-stat-card [value]="profile()?.phone || '—'" label="رقم الموبايل" />
     </div>
 
-    <div class="panel" style="margin-bottom: 22px;">
-      <h2>موادي</h2>
+    <app-panel title="موادي" [spaced]="true">
       <div class="table-wrap">
         <table class="table">
           <thead>
@@ -60,10 +43,9 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </app-panel>
 
-    <div class="panel">
-      <h2>درجاتي والامتحانات</h2>
+    <app-panel title="درجاتي والامتحانات">
       @if (grades().length === 0) {
         <p class="meta">لسه مفيش درجات. لما المدرس يرصد الامتحان هتظهر هنا.</p>
       } @else {
@@ -92,6 +74,6 @@
           </table>
         </div>
       }
-    </div>
+    </app-panel>
   </div>
 </section>

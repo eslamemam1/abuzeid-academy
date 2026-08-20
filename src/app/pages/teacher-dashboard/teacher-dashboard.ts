@@ -1,27 +1,30 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AcademyApi } from '../../services/academy-api';
 import { AuthService } from '../../services/auth';
-import { DbCourse, Exam, Profile } from '../../models/account';
+import { CourseService } from '../../services/course';
+import { ExamService } from '../../services/exam';
+import { StudentService } from '../../services/student';
 import { yearLabel } from '../../models/labels';
+import { Panel, StatCard, TeacherShell } from '../../shared';
 
 @Component({
   selector: 'app-teacher-dashboard',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, TeacherShell, StatCard, Panel],
   templateUrl: './teacher-dashboard.html',
-  styleUrl: './teacher-dashboard.scss',
 })
 export class TeacherDashboard {
-  private readonly api = inject(AcademyApi);
+  private readonly coursesApi = inject(CourseService);
+  private readonly studentsApi = inject(StudentService);
+  private readonly examsApi = inject(ExamService);
   private readonly auth = inject(AuthService);
   private readonly fb = inject(FormBuilder);
 
   protected readonly profile = this.auth.profile;
   protected readonly yearLabel = yearLabel;
-  protected readonly students = signal<Profile[]>([]);
-  protected readonly courses = signal<DbCourse[]>([]);
-  protected readonly exams = signal<Exam[]>([]);
+  protected readonly students = this.studentsApi.students;
+  protected readonly courses = this.coursesApi.courses;
+  protected readonly exams = this.examsApi.exams;
   protected readonly message = signal('');
   protected readonly error = signal('');
 
@@ -44,7 +47,7 @@ export class TeacherDashboard {
     const value = this.examForm.getRawValue();
     this.error.set('');
     try {
-      await this.api.createExam({
+      await this.examsApi.create({
         course_id: value.course_id,
         title: value.title,
         exam_date: value.exam_date || new Date().toISOString().slice(0, 10),
@@ -52,20 +55,12 @@ export class TeacherDashboard {
       });
       this.message.set('تم إنشاء الامتحان.');
       this.examForm.patchValue({ title: '' });
-      await this.reload();
     } catch {
       this.error.set('تعذر إنشاء الامتحان.');
     }
   }
 
   private async reload(): Promise<void> {
-    const [students, courses, exams] = await Promise.all([
-      this.api.listStudents(),
-      this.api.listCourses(),
-      this.api.listExams(),
-    ]);
-    this.students.set(students);
-    this.courses.set(courses);
-    this.exams.set(exams);
+    await Promise.all([this.studentsApi.refresh(), this.coursesApi.refresh(), this.examsApi.refresh()]);
   }
 }

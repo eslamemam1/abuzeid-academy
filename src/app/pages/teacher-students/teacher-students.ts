@@ -1,21 +1,19 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { AcademyApi } from '../../services/academy-api';
-import { Profile } from '../../models/account';
+import { Component, inject } from '@angular/core';
+import { StudentService } from '../../services/student';
 import { yearLabel } from '../../models/labels';
+import { Panel, TeacherShell } from '../../shared';
 
 @Component({
   selector: 'app-teacher-students',
-  imports: [RouterLink],
+  imports: [TeacherShell, Panel],
   templateUrl: './teacher-students.html',
-  styleUrl: './teacher-students.scss',
 })
 export class TeacherStudents {
-  private readonly api = inject(AcademyApi);
+  private readonly studentsApi = inject(StudentService);
   protected readonly yearLabel = yearLabel;
-  protected readonly students = signal<Profile[]>([]);
+  protected readonly students = this.studentsApi.students;
 
   constructor() {
-    void this.api.listStudents().then((rows) => this.students.set(rows));
+    void this.studentsApi.refresh();
   }
 }

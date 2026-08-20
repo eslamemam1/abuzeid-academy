@@ -1,0 +1,11 @@
+@if (link()) {
+  <a class="feature-card" [routerLink]="link()">
+    <h3>{{ value() }}</h3>
+    <p class="meta">{{ label() }}</p>
+  </a>
+} @else {
+  <article class="feature-card">
+    <h3>{{ value() }}</h3>
+    <p class="meta">{{ label() }}</p>
+  </article>
+}

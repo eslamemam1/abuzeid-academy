@@ -1,19 +1,18 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <h3>أكاديمية أبو زيد</h3>
+      <h3>{{ academy.name }}</h3>
       <p>
-        منصة المهندس إسلام إمام (إسلام أبو زيد) لشرح مواد البرمجة والذكاء الاصطناعي
+        منصة {{ academy.founderFull }} لشرح مواد البرمجة والذكاء الاصطناعي
         لطلاب السنة الأولى والثانية بكالوريا وفق النظام السنوي المصري.
       </p>
     </div>
 
     <div>
       <h4>روابط سريعة</h4>
-      <p><a routerLink="/">الرئيسية</a></p>
-      <p><a routerLink="/courses">المواد</a></p>
-      <p><a routerLink="/about">عن الأكاديمية</a></p>
-      <p><a routerLink="/certificate">صلاحية الشهادة</a></p>
+      @for (item of nav; track item.path) {
+        <p><a [routerLink]="item.path">{{ item.label }}</a></p>
+      }
     </div>
 
     <div>
@@ -26,15 +25,15 @@
 
     <div>
       <h4>تواصل معنا</h4>
-      <p>جمهورية مصر العربية</p>
-      <p>المهندس إسلام إمام</p>
-      <p>نظام سنوي • بكالوريا</p>
+      <p>{{ academy.location }}</p>
+      <p>{{ academy.founder }}</p>
+      <p>النظام: {{ academy.system }}</p>
       <p><a routerLink="/contact">أرسل رسالة من هنا</a></p>
     </div>
   </div>
 
   <div class="container footer-copy">
-    <span>© 2026 أكاديمية أبو زيد. جميع الحقوق محفوظة.</span>
-    <span>م. إسلام إمام</span>
+    <span>© 2026 {{ academy.name }}. جميع الحقوق محفوظة.</span>
+    <span>{{ academy.founder }}</span>
   </div>
 </footer>

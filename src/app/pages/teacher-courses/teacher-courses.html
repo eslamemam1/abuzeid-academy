@@ -1,0 +1,70 @@
+<app-teacher-shell
+  title="المواد"
+  subtitle="أضف مادة جديدة أو احذف مادة من الأكاديمية."
+  [message]="message()"
+  [error]="error()"
+>
+  <div class="grid-2">
+    <app-panel title="إضافة مادة">
+      <form class="form" [formGroup]="courseForm" (submit)="$event.preventDefault(); createCourse()">
+        <label>
+          اسم المادة
+          <input type="text" formControlName="title" placeholder="مثال: مقدمة في البرمجة" />
+        </label>
+        <label>
+          التصنيف
+          <select formControlName="category">
+            <option value="programming">برمجة</option>
+            <option value="ai">ذكاء اصطناعي</option>
+          </select>
+        </label>
+        <label>
+          السنة
+          <select formControlName="year_level">
+            <option value="year1">سنة أولى بكالوريا</option>
+            <option value="year2">سنة ثانية بكالوريا</option>
+          </select>
+        </label>
+        <label>
+          الوصف
+          <textarea formControlName="description" rows="4" placeholder="نبذة عن المادة للطلاب"></textarea>
+        </label>
+        <button class="btn btn-primary" type="submit" [disabled]="saving()">
+          {{ saving() ? 'جاري الحفظ...' : 'حفظ المادة' }}
+        </button>
+      </form>
+    </app-panel>
+
+    <app-panel title="المواد الحالية">
+      <p class="meta">عدد المواد: {{ courses().length }}</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>المادة</th>
+              <th>التصنيف</th>
+              <th>السنة</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (course of courses(); track course.id) {
+              <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ categoryLabel(course.category) }}</td>
+                <td>{{ yearLabel(course.year_level) }}</td>
+                <td>
+                  <button class="btn btn-danger" type="button" (click)="deleteCourse(course)">حذف</button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4">لا توجد مواد حتى الآن. أضف مادة من النموذج.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </app-panel>
+  </div>
+</app-teacher-shell>

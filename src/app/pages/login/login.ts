@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, homeByRole } from '../../services/auth';
+import { AlertBanner, PageHero, Panel } from '../../shared';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, PageHero, Panel, AlertBanner],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
 })
 export class Login {
   private readonly fb = inject(FormBuilder);

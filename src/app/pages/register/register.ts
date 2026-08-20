@@ -4,12 +4,12 @@ import { Router, RouterLink } from '@angular/router';
 import { YearLevel } from '../../models/account';
 import { AuthService, homeByRole } from '../../services/auth';
 import { passwordsMatch, sanitizeAuthError, strongPasswordPattern } from '../../core/security';
+import { AlertBanner, PageHero, Panel } from '../../shared';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, PageHero, Panel, AlertBanner],
   templateUrl: './register.html',
-  styleUrl: './register.scss',
 })
 export class Register {
   private readonly fb = inject(FormBuilder);

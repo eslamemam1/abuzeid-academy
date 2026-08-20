@@ -1,19 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { AcademyApi } from '../../services/academy-api';
+import { EnrollmentService } from '../../services/enrollment';
+import { ExamService } from '../../services/exam';
+import { GradeService } from '../../services/grade';
 import { Enrollment, Exam } from '../../models/account';
+import { Panel, TeacherShell } from '../../shared';
 
 @Component({
   selector: 'app-teacher-grades',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, TeacherShell, Panel],
   templateUrl: './teacher-grades.html',
-  styleUrl: './teacher-grades.scss',
 })
 export class TeacherGrades {
-  private readonly api = inject(AcademyApi);
+  private readonly examsApi = inject(ExamService);
+  private readonly enrollmentsApi = inject(EnrollmentService);
+  private readonly gradesApi = inject(GradeService);
 
-  protected readonly exams = signal<Exam[]>([]);
+  protected readonly exams = this.examsApi.exams;
   protected readonly students = signal<Enrollment[]>([]);
   protected readonly selectedExamId = signal('');
   protected readonly scores: Record<string, number | null> = {};
@@ -22,7 +25,7 @@ export class TeacherGrades {
   protected readonly error = signal('');
 
   constructor() {
-    void this.api.listExams().then((rows) => this.exams.set(rows));
+    void this.examsApi.refresh();
   }
 
   protected selectedExam(): Exam | undefined {
@@ -39,8 +42,8 @@ export class TeacherGrades {
     }
 
     const [enrollments, grades] = await Promise.all([
-      this.api.enrollmentsForCourse(exam.course_id),
-      this.api.gradesForExam(exam.id),
+      this.enrollmentsApi.forCourse(exam.course_id),
+      this.gradesApi.forExam(exam.id),
     ]);
 
     for (const key of Object.keys(this.scores)) {
@@ -67,7 +70,7 @@ export class TeacherGrades {
     }
     this.error.set('');
     try {
-      await this.api.saveGrade({
+      await this.gradesApi.save({
         exam_id: examId,
         student_id: studentId,
         score: Number(score),

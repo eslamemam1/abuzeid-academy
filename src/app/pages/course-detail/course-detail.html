@@ -1,43 +1,46 @@
-<section class="page-hero">
-  <div class="container">
-    <a routerLink="/courses" class="eyebrow">العودة للمواد</a>
-    <h1>{{ course()?.title || 'الدورة غير موجودة' }}</h1>
-    <p>{{ course()?.instructor }} • {{ course()?.typeLabel }}</p>
-  </div>
-</section>
+<app-page-hero
+  eyebrow="العودة للمواد"
+  eyebrowLink="/courses"
+  [title]="title()"
+  [subtitle]="subtitle()"
+/>
 
 <section class="section">
   <div class="container">
-    @if (course(); as item) {
+    @if (!loaded()) {
+      <app-panel>
+        <p>جاري تحميل المادة...</p>
+      </app-panel>
+    } @else if (course(); as item) {
       <div class="course-detail">
-        <div class="panel">
+        <app-panel [title]="item.title">
           <span class="eyebrow">{{ item.levelLabel }} • {{ item.categoryLabel }}</span>
-          <h2>{{ item.title }}</h2>
           <p class="lead">{{ item.description }}</p>
-          <h3 style="margin: 24px 0 10px; color: var(--navy);">ماذا ستتعلم؟</h3>
-          <ul class="outcomes">
-            @for (outcome of item.outcomes; track outcome) {
-              <li>{{ outcome }}</li>
-            }
-          </ul>
-        </div>
+          @if (item.outcomes.length) {
+            <h3 style="margin: 24px 0 10px; color: var(--navy);">ماذا ستتعلم؟</h3>
+            <ul class="outcomes">
+              @for (outcome of item.outcomes; track outcome) {
+                <li>{{ outcome }}</li>
+              }
+            </ul>
+          }
+        </app-panel>
 
-        <aside class="panel">
-          <p class="price">{{ item.price }} ج.م</p>
-          <p class="meta">{{ item.levelLabel }}</p>
-          <p class="meta">{{ item.lessons }} درس</p>
-          <p class="meta">المدة: {{ item.duration }}</p>
-          <p class="meta">التاريخ: {{ item.date }}</p>
-          <p class="meta">المسجلون: {{ item.students }}</p>
-          <p class="meta">التقييم: {{ item.rating }} / 5</p>
-          <a class="btn btn-primary" style="width: 100%; margin-top: 18px;" routerLink="/contact">سجّل في الدورة</a>
+        <aside>
+          <app-panel>
+            <p class="price">{{ item.price > 0 ? item.price + ' ج.م' : 'أونلاين' }}</p>
+            <p class="meta">{{ item.levelLabel }}</p>
+            <p class="meta">{{ item.categoryLabel }}</p>
+            <p class="meta">المدة: {{ item.duration }}</p>
+            <a class="btn btn-primary" style="width: 100%; margin-top: 18px;" routerLink="/login">سجّل في الدورة</a>
+          </app-panel>
         </aside>
       </div>
     } @else {
-      <div class="panel">
+      <app-panel>
         <p>لم نعثر على هذه الدورة.</p>
         <a class="btn btn-navy" routerLink="/courses">تصفح الدورات</a>
-      </div>
+      </app-panel>
     }
   </div>
 </section>

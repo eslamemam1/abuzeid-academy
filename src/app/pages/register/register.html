@@ -1,59 +1,54 @@
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">حساب جديد</span>
-    <h1>إنشاء حساب طالب</h1>
-    <p>بعد التسجيل تقدر تشوف موادك ودرجاتك وامتحاناتك من لوحتك الخاصة.</p>
-  </div>
-</section>
+<app-page-hero
+  eyebrow="حساب جديد"
+  title="إنشاء حساب طالب"
+  subtitle="بعد التسجيل تقدر تشوف موادك ودرجاتك وامتحاناتك من لوحتك الخاصة."
+/>
 
 <section class="section">
   <div class="container auth-wrap">
-    <form class="panel form" [formGroup]="form" autocomplete="on" (submit)="$event.preventDefault(); submit()">
-      @if (error) {
-        <p class="error">{{ error }}</p>
-      }
-      @if (message) {
-        <p class="success">{{ message }}</p>
-      }
-      <label>
-        الاسم
-        <input type="text" formControlName="fullName" maxlength="80" autocomplete="name" />
-      </label>
-      <label>
-        البريد الإلكتروني
-        <input type="email" formControlName="email" maxlength="120" autocomplete="email" />
-      </label>
-      <label>
-        رقم الموبايل
-        <input type="tel" formControlName="phone" maxlength="20" autocomplete="tel" />
-      </label>
-      <label>
-        السنة الدراسية
-        <select formControlName="yearLevel">
-          <option value="">اختر السنة</option>
-          <option value="year1">سنة أولى بكالوريا</option>
-          <option value="year2">سنة ثانية بكالوريا</option>
-        </select>
-      </label>
-      <label>
-        كلمة المرور
-        <input type="password" formControlName="password" maxlength="72" autocomplete="new-password" />
-        <span class="meta">10 أحرف على الأقل، وتتضمن حرفًا كبيرًا وصغيرًا ورقمًا.</span>
-        @if (form.controls.password.touched && form.controls.password.invalid) {
-          <span class="error">كلمة المرور ضعيفة.</span>
-        }
-      </label>
-      <label>
-        تأكيد كلمة المرور
-        <input type="password" formControlName="confirmPassword" maxlength="72" autocomplete="new-password" />
-        @if (form.touched && form.errors?.['passwordsMismatch']) {
-          <span class="error">كلمتا المرور غير متطابقتين.</span>
-        }
-      </label>
-      <button class="btn btn-primary" type="submit" [disabled]="loading">
-        {{ loading ? 'جاري الإنشاء...' : 'إنشاء الحساب' }}
-      </button>
-      <p class="meta">عندك حساب؟ <a routerLink="/login">سجّل الدخول</a></p>
-    </form>
+    <app-panel>
+      <form class="form" [formGroup]="form" autocomplete="on" (submit)="$event.preventDefault(); submit()">
+        <app-alert-banner [message]="message" [error]="error" />
+        <label>
+          الاسم
+          <input type="text" formControlName="fullName" maxlength="80" autocomplete="name" />
+        </label>
+        <label>
+          البريد الإلكتروني
+          <input type="email" formControlName="email" maxlength="120" autocomplete="email" />
+        </label>
+        <label>
+          رقم الموبايل
+          <input type="tel" formControlName="phone" maxlength="20" autocomplete="tel" />
+        </label>
+        <label>
+          السنة الدراسية
+          <select formControlName="yearLevel">
+            <option value="">اختر السنة</option>
+            <option value="year1">سنة أولى بكالوريا</option>
+            <option value="year2">سنة ثانية بكالوريا</option>
+          </select>
+        </label>
+        <label>
+          كلمة المرور
+          <input type="password" formControlName="password" maxlength="72" autocomplete="new-password" />
+          <span class="meta">10 أحرف على الأقل، وتتضمن حرفًا كبيرًا وصغيرًا ورقمًا.</span>
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <span class="error">كلمة المرور ضعيفة.</span>
+          }
+        </label>
+        <label>
+          تأكيد كلمة المرور
+          <input type="password" formControlName="confirmPassword" maxlength="72" autocomplete="new-password" />
+          @if (form.touched && form.errors?.['passwordsMismatch']) {
+            <span class="error">كلمتا المرور غير متطابقتين.</span>
+          }
+        </label>
+        <button class="btn btn-primary" type="submit" [disabled]="loading">
+          {{ loading ? 'جاري الإنشاء...' : 'إنشاء الحساب' }}
+        </button>
+        <p class="meta">عندك حساب؟ <a routerLink="/login">سجّل الدخول</a></p>
+      </form>
+    </app-panel>
   </div>
 </section>

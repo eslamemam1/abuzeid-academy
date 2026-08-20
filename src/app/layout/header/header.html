@@ -1,22 +1,28 @@
 <header class="site-header">
   <div class="container topbar">
     <span>مصر • بكالوريا سنوي • سنة أولى وثانية</span>
-    <span>المهندس إسلام إمام</span>
+    <span>{{ academy.founder }}</span>
   </div>
 
   <div class="container navbar">
     <a class="brand" routerLink="/" (click)="closeMenu()">
       <span class="brand-mark">أز</span>
-      <span>أكاديمية أبو زيد</span>
+      <span>{{ academy.name }}</span>
     </a>
 
     <nav>
       <ul class="nav-links">
-        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">الرئيسية</a></li>
-        <li><a routerLink="/courses" routerLinkActive="active">المواد</a></li>
-        <li><a routerLink="/about" routerLinkActive="active">عن الأكاديمية</a></li>
-        <li><a routerLink="/certificate" routerLinkActive="active">تحقق الشهادة</a></li>
-        <li><a routerLink="/contact" routerLinkActive="active">اتصل بنا</a></li>
+        @for (item of nav; track item.path) {
+          <li>
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.exact === true }"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
       </ul>
     </nav>
 
@@ -34,11 +40,9 @@
 
   @if (menuOpen()) {
     <nav class="mobile-nav open" (click)="closeMenu()">
-      <a routerLink="/">الرئيسية</a>
-      <a routerLink="/courses">المواد</a>
-      <a routerLink="/about">عن الأكاديمية</a>
-      <a routerLink="/certificate">تحقق الشهادة</a>
-      <a routerLink="/contact">اتصل بنا</a>
+      @for (item of nav; track item.path) {
+        <a [routerLink]="item.path">{{ item.label }}</a>
+      }
       @if (auth.user()) {
         <a [routerLink]="auth.dashboardLink()">لوحتي</a>
         <a href="#" (click)="$event.preventDefault(); logout()">خروج</a>

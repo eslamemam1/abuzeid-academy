@@ -3,15 +3,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
-import { CourseCard } from '../../shared/course-card/course-card';
 import { CourseService } from '../../services/course';
 import { FILTERS, CourseFilter } from '../../models/course';
+import { CourseCard, PageHero } from '../../shared';
 
 @Component({
   selector: 'app-courses',
-  imports: [ReactiveFormsModule, CourseCard],
+  imports: [ReactiveFormsModule, CourseCard, PageHero],
   templateUrl: './courses.html',
-  styleUrl: './courses.scss',
 })
 export class Courses {
   private readonly coursesApi = inject(CourseService);

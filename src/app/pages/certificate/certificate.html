@@ -1,33 +1,30 @@
-<section class="page-hero">
-  <div class="container">
-    <span class="eyebrow">التوثيق</span>
-    <h1>صلاحية الشهادة</h1>
-    <p>للتحقق من صلاحية الشهادة أدخل كود الشهادة واضغط على تحقق.</p>
-  </div>
-</section>
+<app-page-hero
+  eyebrow="التوثيق"
+  title="صلاحية الشهادة"
+  subtitle="للتحقق من صلاحية الشهادة أدخل كود الشهادة واضغط على تحقق."
+/>
 
 <section class="section">
   <div class="container" style="max-width: 640px;">
-    <form class="panel form" (submit)="$event.preventDefault(); verify()">
-      <label>
-        رقم الشهادة
-        <input type="text" [formControl]="code" placeholder="مثال: AZ-2026A1" />
-        @if (code.touched && code.invalid) {
-          <span class="error">أدخل كود الشهادة</span>
+    <app-panel>
+      <form class="form" (submit)="$event.preventDefault(); verify()">
+        <label>
+          رقم الشهادة
+          <input type="text" [formControl]="code" placeholder="مثال: AZ-2026A1" />
+          @if (code.touched && code.invalid) {
+            <span class="error">أدخل كود الشهادة</span>
+          }
+        </label>
+        <button class="btn btn-primary" type="submit">تحقق</button>
+
+        @if (result === 'valid') {
+          <app-alert-banner message="الشهادة صالحة. هذه الشهادة صادرة عن أكاديمية أبو زيد لمادة برمجة أو ذكاء اصطناعي." />
         }
-      </label>
-      <button class="btn btn-primary" type="submit">تحقق</button>
 
-      @if (result === 'valid') {
-        <div class="success">
-          <strong>الشهادة صالحة</strong>
-          <p>هذه الشهادة صادرة عن أكاديمية أبو زيد لمادة برمجة أو ذكاء اصطناعي.</p>
-        </div>
-      }
-
-      @if (result === 'invalid') {
-        <p class="error">لم يتم العثور على شهادة بهذا الكود. استخدم صيغة مثل AZ-2026A1.</p>
-      }
-    </form>
+        @if (result === 'invalid') {
+          <app-alert-banner error="لم يتم العثور على شهادة بهذا الكود. استخدم صيغة مثل AZ-2026A1." />
+        }
+      </form>
+    </app-panel>
   </div>
 </section>

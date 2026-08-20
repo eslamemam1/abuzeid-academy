@@ -1,0 +1,9 @@
+<app-page-hero [eyebrow]="eyebrow" [title]="title()" [subtitle]="subtitle()" />
+
+<section class="section">
+  <div class="container">
+    <app-dash-nav />
+    <app-alert-banner [message]="message()" [error]="error()" />
+    <ng-content />
+  </div>
+</section>
