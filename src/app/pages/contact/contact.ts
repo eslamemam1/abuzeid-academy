@@ -15,7 +15,7 @@ export class Contact {
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', Validators.required],
-    subject: ['استفسار عن دورة'],
+    subject: ['استفسار عن مادة البرمجة'],
     message: ['', Validators.required],
   });
 
@@ -25,6 +25,6 @@ export class Contact {
       return;
     }
     this.sent = true;
-    this.form.reset({ subject: 'استفسار عن دورة' });
+    this.form.reset({ subject: 'استفسار عن مادة البرمجة' });
   }
 }

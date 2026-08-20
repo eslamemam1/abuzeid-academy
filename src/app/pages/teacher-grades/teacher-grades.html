@@ -1,0 +1,80 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">المدرس</span>
+    <h1>رصد الدرجات</h1>
+    <p>اختر امتحانًا ثم سجّل درجة كل طالب.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="dash-nav">
+      <a class="chip" routerLink="/teacher">نظرة عامة</a>
+      <a class="chip" routerLink="/teacher/students">الطلاب</a>
+      <a class="chip active" routerLink="/teacher/grades">رصد الدرجات</a>
+    </div>
+
+    @if (message()) {
+      <p class="success">{{ message() }}</p>
+    }
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="panel">
+      <label class="form">
+        الامتحان
+        <select [ngModel]="selectedExamId()" (ngModelChange)="onExamChange($event)">
+          <option value="">اختر امتحانًا</option>
+          @for (exam of exams(); track exam.id) {
+            <option [value]="exam.id">{{ exam.title }} — {{ exam.courses?.title }}</option>
+          }
+        </select>
+      </label>
+
+      @if (selectedExam(); as exam) {
+        <p class="meta">الدرجة النهائية: {{ exam.total_marks }}</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>الطالب</th>
+                <th>الدرجة</th>
+                <th>ملاحظة</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of students(); track row.student_id) {
+                <tr>
+                  <td>{{ row.profiles?.full_name || row.student_id }}</td>
+                  <td>
+                    <input
+                      type="number"
+                      [ngModel]="scores[row.student_id]"
+                      (ngModelChange)="scores[row.student_id] = $event"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      [ngModel]="notes[row.student_id]"
+                      (ngModelChange)="notes[row.student_id] = $event"
+                    />
+                  </td>
+                  <td>
+                    <button class="btn btn-navy" type="button" (click)="save(row.student_id)">حفظ</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4">لا يوجد طلاب مسجّلين في مادة هذا الامتحان.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

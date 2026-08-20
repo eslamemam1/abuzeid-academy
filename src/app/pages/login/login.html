@@ -1,0 +1,29 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">حسابك</span>
+    <h1>تسجيل الدخول</h1>
+    <p>ادخل كطالب أو كمدرس أكاديمية أبو زيد.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container auth-wrap">
+    <form class="panel form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
+      @if (error) {
+        <p class="error">{{ error }}</p>
+      }
+      <label>
+        البريد الإلكتروني
+        <input type="email" formControlName="email" maxlength="120" autocomplete="username" />
+      </label>
+      <label>
+        كلمة المرور
+        <input type="password" formControlName="password" maxlength="72" autocomplete="current-password" />
+      </label>
+      <button class="btn btn-primary" type="submit" [disabled]="loading">
+        {{ loading ? 'جاري الدخول...' : 'دخول' }}
+      </button>
+      <p class="meta">طالب جديد؟ <a routerLink="/register">أنشئ حساب طالب</a></p>
+    </form>
+  </div>
+</section>

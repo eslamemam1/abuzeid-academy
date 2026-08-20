@@ -1,29 +1,29 @@
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <span class="eyebrow">منصة الدورات الأونلاين</span>
-      <h1>أكاديمية أبو زيد</h1>
+      <span class="eyebrow">أكاديمية أبو زيد • م. إسلام إمام</span>
+      <h1>برمجة وذكاء اصطناعي للبكالوريا في مصر</h1>
       <p class="lead">
-        متعة التدرب والتدريب.. دورات تفاعلية مميزة للطلاب الجامعيين والخريجين
-        في الرياضيات والإحصاء والحساب الذهني والرياضيات الفيدية.
+        دورات للسنة الأولى والثانية بكالوريا وفق النظام السنوي المصري.
+        شرح عملي، تمارين، ومراجعات امتحانات من المهندس إسلام إمام (إسلام أبو زيد).
       </p>
       <div class="hero-actions">
-        <a class="btn btn-primary" routerLink="/courses">استعرض الدورات</a>
+        <a class="btn btn-primary" routerLink="/courses">استعرض المواد</a>
         <a class="btn btn-ghost" routerLink="/about">تعرف على الأكاديمية</a>
       </div>
       <form class="search-box" (submit)="$event.preventDefault(); goToCourses()">
-        <input type="search" [formControl]="search" placeholder="ابحث عن دورة مثل MATH 207 أو إحصاء" />
+        <input type="search" [formControl]="search" placeholder="ابحث: برمجة، OOP، ذكاء اصطناعي، سنة أولى..." />
         <button type="submit">بحث</button>
       </form>
     </div>
 
     <div class="hero-card">
-      <h3>لماذا يتعلم الطلاب معنا؟</h3>
+      <h3>المنهج مناسب لامتحاناتك</h3>
       <div class="stat-row">
-        <div class="stat"><b>11</b> مدربين ماهرين</div>
-        <div class="stat"><b>97+</b> طلاب سعداء</div>
-        <div class="stat"><b>أونلاين</b> تعلم بلا حدود</div>
-        <div class="stat"><b>حضوري</b> في جدة</div>
+        <div class="stat"><b>أولى</b> مقدمة برمجة وذكاء اصطناعي</div>
+        <div class="stat"><b>ثانية</b> OOP وهياكل بيانات وتعلم آلة</div>
+        <div class="stat"><b>سنوي</b> نظام البكالوريا المصرية</div>
+        <div class="stat"><b>أونلاين</b> ادرس من أي مكان</div>
       </div>
     </div>
   </div>
@@ -32,9 +32,9 @@
 <section class="section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">الدورات</span>
-      <h2>أحدث الدورات الأونلاين</h2>
-      <p>دورات مسجلة وتفاعلية في الرياضيات الجامعية، الإحصاء، وتنمية المهارات الذهنية.</p>
+      <span class="eyebrow">المواد</span>
+      <h2>أبرز دورات السنة الأولى والثانية</h2>
+      <p>برمجة وذكاء اصطناعي بنفس أسلوب الامتحان السنوي، بشرح المهندس إسلام إمام.</p>
     </div>
     <div class="grid-3">
       @for (course of featured; track course.id) {
@@ -47,29 +47,29 @@
 <section class="section" style="padding-top: 0;">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">مميزاتنا</span>
-      <h2>تعلم بطريقتك، وفي وقتك</h2>
+      <span class="eyebrow">ليه الأكاديمية؟</span>
+      <h2>مش شرح عام.. ده منهج بكالوريا</h2>
     </div>
     <div class="grid-4">
       <article class="feature-card">
         <div class="icon-circle">1</div>
-        <h3>دورات أونلاين</h3>
-        <p class="meta">نمّ مهاراتك بأفضل طرق التعلم من أي مكان.</p>
+        <h3>سنة أولى</h3>
+        <p class="meta">مقدمة البرمجة، حل المشكلات، ومدخل الذكاء الاصطناعي.</p>
       </article>
       <article class="feature-card">
         <div class="icon-circle">2</div>
-        <h3>دورات حضورية</h3>
-        <p class="meta">لقاءات تفاعلية في جدة لمن يفضل التعلم المباشر.</p>
+        <h3>سنة ثانية</h3>
+        <p class="meta">OOP، هياكل البيانات، بايثون، وتعلم الآلة للمبتدئين.</p>
       </article>
       <article class="feature-card">
         <div class="icon-circle">3</div>
-        <h3>مدربون محترفون</h3>
-        <p class="meta">ابدأ التعلم مع مدربين متخصصين في الرياضيات والإحصاء.</p>
+        <h3>نظام سنوي</h3>
+        <p class="meta">الشرح مربوط بورقة الامتحان ومراجعات نهاية العام.</p>
       </article>
       <article class="feature-card">
         <div class="icon-circle">4</div>
-        <h3>شهادات معتمدة</h3>
-        <p class="meta">تحقق من صلاحية شهادتك مباشرة من المنصة.</p>
+        <h3>شهادة إتمام</h3>
+        <p class="meta">بعد الدورة تقدر تتحقق من الشهادة من المنصة.</p>
       </article>
     </div>
   </div>
@@ -79,10 +79,10 @@
   <div class="container">
     <div class="cta-band">
       <div>
-        <h2>كن مدربًا في أكاديمية أبو زيد</h2>
-        <p>هل ترغب أن تكون جزءًا من منصتنا؟ سجّل كمدرب وابدأ في الكسب الآن.</p>
+        <h2>جهّز مادة البرمجة والذكاء الاصطناعي من دلوقتي</h2>
+        <p>سجّل في دفعة السنة الدراسية الحالية مع أكاديمية أبو زيد.</p>
       </div>
-      <a class="btn btn-navy" routerLink="/contact">تواصل للانضمام</a>
+      <a class="btn btn-navy" routerLink="/contact">احجز مكانك</a>
     </div>
   </div>
 </section>
@@ -90,10 +90,10 @@
 <section class="section" style="padding-top: 0;">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">المدربون</span>
-      <h2>تعلم مع أفضل المدربين</h2>
+      <span class="eyebrow">المؤسس والمدرب</span>
+      <h2>تعلم مباشرة مع المهندس إسلام إمام</h2>
     </div>
-    <div class="grid-3">
+    <div class="grid-2">
       @for (person of instructors; track person.name) {
         <article class="instructor-card">
           <h3>{{ person.name }}</h3>
@@ -101,6 +101,14 @@
           <p class="meta">{{ person.bio }}</p>
         </article>
       }
+      <article class="instructor-card">
+        <h3>أكاديمية أبو زيد</h3>
+        <p class="eyebrow" style="margin-top: 8px;">منصة خاصة بطلاب البكالوريا</p>
+        <p class="meta">
+          الأكاديمية باسم أبو زيد، والمدرب هو المهندس إسلام إمام.
+          الهدف: تخلي مادة البرمجة والذكاء الاصطناعي مفهومة، وتروح الامتحان السنوي وأنت جاهز.
+        </p>
+      </article>
     </div>
   </div>
 </section>

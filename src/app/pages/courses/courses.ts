@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { CourseCard } from '../../shared/course-card/course-card';
 import { CourseService } from '../../services/course';
-import { CATEGORIES, CourseCategory } from '../../models/course';
+import { FILTERS, CourseFilter } from '../../models/course';
 
 @Component({
   selector: 'app-courses',
@@ -18,9 +18,9 @@ export class Courses {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  protected readonly categories = CATEGORIES;
+  protected readonly categories = FILTERS;
   protected readonly search = new FormControl('', { nonNullable: true });
-  protected readonly selectedCategory = signal<CourseCategory | 'all'>('all');
+  protected readonly selectedCategory = signal<CourseFilter>('all');
 
   private readonly query = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('q') ?? '')),
@@ -43,7 +43,7 @@ export class Courses {
     });
   }
 
-  protected setCategory(id: CourseCategory | 'all'): void {
+  protected setCategory(id: CourseFilter): void {
     this.selectedCategory.set(id);
   }
 }

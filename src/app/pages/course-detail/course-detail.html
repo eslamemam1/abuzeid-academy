@@ -1,6 +1,6 @@
 <section class="page-hero">
   <div class="container">
-    <a routerLink="/courses" class="eyebrow">العودة للدورات</a>
+    <a routerLink="/courses" class="eyebrow">العودة للمواد</a>
     <h1>{{ course()?.title || 'الدورة غير موجودة' }}</h1>
     <p>{{ course()?.instructor }} • {{ course()?.typeLabel }}</p>
   </div>
@@ -11,7 +11,7 @@
     @if (course(); as item) {
       <div class="course-detail">
         <div class="panel">
-          <span class="eyebrow">{{ item.categoryLabel }}</span>
+          <span class="eyebrow">{{ item.levelLabel }} • {{ item.categoryLabel }}</span>
           <h2>{{ item.title }}</h2>
           <p class="lead">{{ item.description }}</p>
           <h3 style="margin: 24px 0 10px; color: var(--navy);">ماذا ستتعلم؟</h3>
@@ -23,7 +23,8 @@
         </div>
 
         <aside class="panel">
-          <p class="price">${{ item.price }}</p>
+          <p class="price">{{ item.price }} ج.م</p>
+          <p class="meta">{{ item.levelLabel }}</p>
           <p class="meta">{{ item.lessons }} درس</p>
           <p class="meta">المدة: {{ item.duration }}</p>
           <p class="meta">التاريخ: {{ item.date }}</p>

@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.scss',
 })
 export class Header {
+  protected readonly auth = inject(AuthService);
   protected readonly menuOpen = signal(false);
 
   protected toggleMenu(): void {
@@ -16,5 +18,10 @@ export class Header {
 
   protected closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  protected async logout(): Promise<void> {
+    this.closeMenu();
+    await this.auth.signOut();
   }
 }

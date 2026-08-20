@@ -1,0 +1,47 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">المدرس</span>
+    <h1>الطلاب</h1>
+    <p>كل الطلاب المسجّلين في أكاديمية أبو زيد.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="dash-nav">
+      <a class="chip" routerLink="/teacher">نظرة عامة</a>
+      <a class="chip active" routerLink="/teacher/students">الطلاب</a>
+      <a class="chip" routerLink="/teacher/grades">رصد الدرجات</a>
+    </div>
+
+    <div class="panel">
+      <p class="meta">عدد الطلاب: {{ students().length }}</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>البريد</th>
+              <th>الموبايل</th>
+              <th>السنة</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (student of students(); track student.id) {
+              <tr>
+                <td>{{ student.full_name }}</td>
+                <td>{{ student.email || '—' }}</td>
+                <td>{{ student.phone || '—' }}</td>
+                <td>{{ yearLabel(student.year_level) }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4">لا يوجد طلاب حتى الآن.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

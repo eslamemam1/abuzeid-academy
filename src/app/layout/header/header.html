@@ -1,7 +1,7 @@
 <header class="site-header">
   <div class="container topbar">
-    <span>جدة - المملكة العربية السعودية</span>
-    <span>00966532220315 — 00966545290624</span>
+    <span>مصر • بكالوريا سنوي • سنة أولى وثانية</span>
+    <span>المهندس إسلام إمام</span>
   </div>
 
   <div class="container navbar">
@@ -13,24 +13,39 @@
     <nav>
       <ul class="nav-links">
         <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">الرئيسية</a></li>
-        <li><a routerLink="/courses" routerLinkActive="active">الدورات</a></li>
+        <li><a routerLink="/courses" routerLinkActive="active">المواد</a></li>
         <li><a routerLink="/about" routerLinkActive="active">عن الأكاديمية</a></li>
         <li><a routerLink="/certificate" routerLinkActive="active">تحقق الشهادة</a></li>
         <li><a routerLink="/contact" routerLinkActive="active">اتصل بنا</a></li>
       </ul>
     </nav>
 
-    <a class="btn btn-primary nav-cta" routerLink="/courses">استعرض الدورات</a>
+    <div class="nav-cta header-auth">
+      @if (auth.user()) {
+        <a class="btn btn-primary" [routerLink]="auth.dashboardLink()">لوحتي</a>
+        <button class="btn btn-ghost" type="button" (click)="logout()">خروج</button>
+      } @else {
+        <a class="btn btn-ghost" routerLink="/login">دخول</a>
+        <a class="btn btn-primary" routerLink="/register">حساب طالب</a>
+      }
+    </div>
     <button class="menu-btn" type="button" (click)="toggleMenu()">القائمة</button>
   </div>
 
   @if (menuOpen()) {
     <nav class="mobile-nav open" (click)="closeMenu()">
       <a routerLink="/">الرئيسية</a>
-      <a routerLink="/courses">الدورات</a>
+      <a routerLink="/courses">المواد</a>
       <a routerLink="/about">عن الأكاديمية</a>
       <a routerLink="/certificate">تحقق الشهادة</a>
       <a routerLink="/contact">اتصل بنا</a>
+      @if (auth.user()) {
+        <a [routerLink]="auth.dashboardLink()">لوحتي</a>
+        <a href="#" (click)="$event.preventDefault(); logout()">خروج</a>
+      } @else {
+        <a routerLink="/login">دخول</a>
+        <a routerLink="/register">حساب طالب</a>
+      }
     </nav>
   }
 </header>

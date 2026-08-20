@@ -1,0 +1,97 @@
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">حساب الطالب</span>
+    <h1>مرحبًا {{ profile()?.full_name || 'طالب' }}</h1>
+    <p>{{ yearLabel(profile()?.year_level) }} • أكاديمية أبو زيد</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    @if (message()) {
+      <p class="success">{{ message() }}</p>
+    }
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="grid-3" style="margin-bottom: 28px;">
+      <article class="feature-card">
+        <h3>{{ enrollments().length }}</h3>
+        <p class="meta">مواد مسجّل فيها</p>
+      </article>
+      <article class="feature-card">
+        <h3>{{ grades().length }}</h3>
+        <p class="meta">درجات مسجّلة</p>
+      </article>
+      <article class="feature-card">
+        <h3>{{ profile()?.phone || '—' }}</h3>
+        <p class="meta">رقم الموبايل</p>
+      </article>
+    </div>
+
+    <div class="panel" style="margin-bottom: 22px;">
+      <h2>موادي</h2>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>المادة</th>
+              <th>التصنيف</th>
+              <th>السنة</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (course of courses(); track course.id) {
+              <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ categoryLabel(course.category) }}</td>
+                <td>{{ yearLabel(course.year_level) }}</td>
+                <td>
+                  @if (isEnrolled(course.id)) {
+                    <span class="badge-ok">مسجّل</span>
+                  } @else {
+                    <button class="btn btn-navy" type="button" (click)="enroll(course.id)">سجّل</button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>درجاتي والامتحانات</h2>
+      @if (grades().length === 0) {
+        <p class="meta">لسه مفيش درجات. لما المدرس يرصد الامتحان هتظهر هنا.</p>
+      } @else {
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>الامتحان</th>
+                <th>المادة</th>
+                <th>الدرجة</th>
+                <th>من</th>
+                <th>ملاحظة</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (grade of grades(); track grade.id) {
+                <tr>
+                  <td>{{ grade.exams?.title }}</td>
+                  <td>{{ grade.exams?.courses?.title }}</td>
+                  <td>{{ grade.score ?? '—' }}</td>
+                  <td>{{ grade.exams?.total_marks }}</td>
+                  <td>{{ grade.notes || '—' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

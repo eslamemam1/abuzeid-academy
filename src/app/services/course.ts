@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { COURSES } from '../data/academy.data';
-import { Course, CourseCategory } from '../models/course';
+import { Course, CourseFilter } from '../models/course';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
@@ -16,16 +16,18 @@ export class CourseService {
     return COURSES.find((course) => course.id === id);
   }
 
-  search(term: string, category: CourseCategory | 'all' = 'all'): Course[] {
+  search(term: string, filter: CourseFilter = 'all'): Course[] {
     const query = term.trim();
     return COURSES.filter((course) => {
-      const matchesCategory = category === 'all' || course.category === category;
+      const matchesFilter =
+        filter === 'all' || course.category === filter || course.level === filter;
       const matchesQuery =
         !query ||
         course.title.includes(query) ||
         course.instructor.includes(query) ||
-        course.categoryLabel.includes(query);
-      return matchesCategory && matchesQuery;
+        course.categoryLabel.includes(query) ||
+        course.levelLabel.includes(query);
+      return matchesFilter && matchesQuery;
     });
   }
 }

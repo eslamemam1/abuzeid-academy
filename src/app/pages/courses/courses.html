@@ -1,15 +1,15 @@
 <section class="page-hero">
   <div class="container">
-    <span class="eyebrow">كتالوج الدورات</span>
-    <h1>الدورات الأونلاين والمسجلة</h1>
-    <p>رياضيات، إحصاء، حساب ذهني، ورياضيات فيدية للطلاب الجامعيين وجميع الأعمار.</p>
+    <span class="eyebrow">مواد السنة الأولى والثانية</span>
+    <h1>دورات البرمجة والذكاء الاصطناعي</h1>
+    <p>بكالوريا مصرية • نظام سنوي • شرح المهندس إسلام إمام</p>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
     <form class="search-box" style="max-width: 100%;" (submit)="$event.preventDefault(); applySearch()">
-      <input type="search" [formControl]="search" placeholder="ابحث باسم الدورة أو المدرب" />
+      <input type="search" [formControl]="search" placeholder="ابحث باسم المادة: برمجة، OOP، تعلم آلة..." />
       <button type="submit">بحث</button>
     </form>
 
@@ -26,13 +26,13 @@
       }
     </div>
 
-    <p class="meta" style="margin-bottom: 18px;">عدد النتائج: {{ results().length }}</p>
+    <p class="meta" style="margin-bottom: 18px;">عدد المواد: {{ results().length }}</p>
 
     <div class="grid-3">
       @for (course of results(); track course.id) {
         <app-course-card [course]="course" />
       } @empty {
-        <p>لا توجد دورات مطابقة لبحثك حالياً.</p>
+        <p>لا توجد مواد مطابقة لبحثك حالياً.</p>
       }
     </div>
   </div>
