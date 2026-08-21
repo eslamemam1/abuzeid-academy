@@ -4,27 +4,13 @@
   [class.menu-open]="menuOpen()"
 >
   <div class="container navbar">
-    <div class="header-start">
-      <a class="brand" routerLink="/" (click)="closeMenu()">
-        <span class="brand-mark">أز</span>
-        <span class="brand-text">
-          <b>{{ academy().name }}</b>
-          <small>{{ academy().founder }}</small>
-        </span>
-      </a>
-
-      <button
-        class="theme-switch"
-        type="button"
-        [class.is-dark]="theme() === 'dark'"
-        (click)="toggleTheme()"
-        [attr.aria-label]="theme() === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'"
-      >
-        <span class="theme-icon theme-sun" aria-hidden="true">☀️</span>
-        <span class="theme-knob" aria-hidden="true"></span>
-        <span class="theme-icon theme-moon" aria-hidden="true">🌙</span>
-      </button>
-    </div>
+    <a class="brand" routerLink="/" (click)="closeMenu()">
+      <img class="brand-mark" src="/logo.png?v=3" width="80" height="80" alt="شعار أكاديمية أبو زيد" />
+      <span class="brand-text">
+        <b>{{ academy().name }}</b>
+        <small>{{ academy().founder }}</small>
+      </span>
+    </a>
 
     <nav class="header-nav" aria-label="التنقل الرئيسي">
       <ul class="nav-links">
@@ -43,6 +29,22 @@
     </nav>
 
     <div class="header-end">
+      <button
+        class="theme-switch"
+        type="button"
+        [class.is-dark]="theme() === 'dark'"
+        (click)="toggleTheme()"
+        [attr.aria-label]="theme() === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'"
+      >
+        <span class="theme-icon theme-sun" aria-hidden="true">
+          <ng-icon name="lucideSun" size="15" strokeWidth="2.25"></ng-icon>
+        </span>
+        <span class="theme-knob" aria-hidden="true"></span>
+        <span class="theme-icon theme-moon" aria-hidden="true">
+          <ng-icon name="lucideMoon" size="15" strokeWidth="2.25"></ng-icon>
+        </span>
+      </button>
+
       <div class="nav-cta header-auth">
         @if (auth.user()) {
           @if (auth.isTeacher() && contacts.unreadCount() > 0) {

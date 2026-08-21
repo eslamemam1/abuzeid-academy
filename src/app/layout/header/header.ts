@@ -1,12 +1,15 @@
 import { afterNextRender, Component, HostListener, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideMoon, lucideSun } from '@ng-icons/lucide';
 import { AuthService } from '../../services/auth';
 import { AcademyContentService } from '../../services/academy-content';
 import { ContactService } from '../../services/contact';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgIcon],
+  providers: [provideIcons({ lucideSun, lucideMoon })],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
