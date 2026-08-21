@@ -1,24 +1,32 @@
-<header class="site-header" [class.is-scrolled]="scrolled()">
+<header
+  class="site-header"
+  [class.is-scrolled]="scrolled()"
+  [class.menu-open]="menuOpen()"
+>
   <div class="container navbar">
-    <a class="brand" routerLink="/" (click)="closeMenu()">
-      <span class="brand-mark">أز</span>
-      <span>{{ academy().name }}</span>
-    </a>
+    <div class="header-start">
+      <a class="brand" routerLink="/" (click)="closeMenu()">
+        <span class="brand-mark">أز</span>
+        <span class="brand-text">
+          <b>{{ academy().name }}</b>
+          <small>{{ academy().founder }}</small>
+        </span>
+      </a>
 
-    <button
-      class="theme-toggle"
-      type="button"
-      (click)="toggleTheme()"
-      [attr.aria-label]="theme() === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'"
-    >
-      @if (theme() === 'dark') {
-        <span>🌙</span>
-      } @else {
-        <span>☀️</span>
-      }
-    </button>
+      <button
+        class="theme-switch"
+        type="button"
+        [class.is-dark]="theme() === 'dark'"
+        (click)="toggleTheme()"
+        [attr.aria-label]="theme() === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'"
+      >
+        <span class="theme-icon theme-sun" aria-hidden="true">☀️</span>
+        <span class="theme-knob" aria-hidden="true"></span>
+        <span class="theme-icon theme-moon" aria-hidden="true">🌙</span>
+      </button>
+    </div>
 
-    <nav>
+    <nav class="header-nav" aria-label="التنقل الرئيسي">
       <ul class="nav-links">
         @for (item of nav; track item.path) {
           <li>
@@ -34,39 +42,74 @@
       </ul>
     </nav>
 
-    <div class="nav-cta header-auth">
-      @if (auth.user()) {
-        @if (auth.isTeacher() && contacts.unreadCount() > 0) {
-          <a class="btn btn-ghost" routerLink="/teacher/messages">
-            رسائل
-            <span class="nav-badge">{{ contacts.unreadCount() }}</span>
+    <div class="header-end">
+      <div class="nav-cta header-auth">
+        @if (auth.user()) {
+          @if (auth.isTeacher() && contacts.unreadCount() > 0) {
+            <a class="btn btn-ghost header-msg" routerLink="/teacher/messages">
+              رسائل
+              <span class="nav-badge">{{ contacts.unreadCount() }}</span>
+            </a>
+          }
+          <a class="user-chip" [routerLink]="auth.dashboardLink()">
+            <span class="user-avatar">{{ initials() }}</span>
+            <span class="user-meta">
+              <b>{{ auth.displayName() }}</b>
+              <small>{{ auth.isTeacher() ? 'المدرس' : 'طالب' }}</small>
+            </span>
           </a>
+          <button class="btn btn-ghost" type="button" (click)="logout()">خروج</button>
+        } @else {
+          <a class="btn btn-ghost header-login" routerLink="/login">تسجيل الدخول</a>
+          <a class="btn btn-primary" routerLink="/register">حساب جديد</a>
         }
-        <a class="btn btn-primary" [routerLink]="auth.dashboardLink()">لوحتي</a>
-        <button class="btn btn-ghost" type="button" (click)="logout()">خروج</button>
-      } @else {
-        <a class="btn btn-ghost" routerLink="/login">تسجيل الدخول</a>
-        <a class="btn btn-primary" routerLink="/register">حساب جديد</a>
-      }
+      </div>
+
+      <button
+        class="menu-btn"
+        type="button"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen()"
+        [attr.aria-label]="menuOpen() ? 'إغلاق القائمة' : 'فتح القائمة'"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
-    <button class="menu-btn" type="button" (click)="toggleMenu()">القائمة</button>
   </div>
 
-  @if (menuOpen()) {
-    <nav class="mobile-nav open" (click)="closeMenu()">
-      @for (item of nav; track item.path) {
-        <a [routerLink]="item.path">{{ item.label }}</a>
+  <div class="nav-overlay" (click)="closeMenu()" [class.open]="menuOpen()"></div>
+  <nav class="mobile-nav" [class.open]="menuOpen()" aria-label="قائمة الموبايل">
+    @if (auth.user()) {
+      <a class="mobile-user" [routerLink]="auth.dashboardLink()" (click)="closeMenu()">
+        <span class="user-avatar">{{ initials() }}</span>
+        <span>
+          <b>{{ auth.displayName() }}</b>
+          <small>{{ auth.isTeacher() ? 'لوحة المدرس' : 'لوحة الطالب' }}</small>
+        </span>
+      </a>
+    }
+    @for (item of nav; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.exact === true }"
+        (click)="closeMenu()"
+      >
+        {{ item.label }}
+      </a>
+    }
+    @if (auth.user()) {
+      @if (auth.isTeacher() && contacts.unreadCount() > 0) {
+        <a routerLink="/teacher/messages" (click)="closeMenu()">رسائل ({{ contacts.unreadCount() }})</a>
       }
-      @if (auth.user()) {
-        @if (auth.isTeacher() && contacts.unreadCount() > 0) {
-          <a routerLink="/teacher/messages">رسائل ({{ contacts.unreadCount() }})</a>
-        }
-        <a [routerLink]="auth.dashboardLink()">لوحتي</a>
-        <a href="#" (click)="$event.preventDefault(); logout()">خروج</a>
-      } @else {
-        <a routerLink="/login">تسجيل الدخول</a>
-        <a routerLink="/register">حساب جديد</a>
-      }
-    </nav>
-  }
+      <button class="mobile-logout" type="button" (click)="logout()">خروج</button>
+    } @else {
+      <div class="mobile-cta">
+        <a class="btn btn-ghost" routerLink="/login" (click)="closeMenu()">تسجيل الدخول</a>
+        <a class="btn btn-primary" routerLink="/register" (click)="closeMenu()">حساب جديد</a>
+      </div>
+    }
+  </nav>
 </header>

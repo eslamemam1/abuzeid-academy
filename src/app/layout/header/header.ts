@@ -8,6 +8,7 @@ import { ContactService } from '../../services/contact';
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
+  styleUrl: './header.scss',
 })
 export class Header {
   protected readonly auth = inject(AuthService);
@@ -23,17 +24,44 @@ export class Header {
     afterNextRender(() => this.onWindowScroll());
   }
 
+  protected initials(): string {
+    const name = this.auth.displayName().trim();
+    const parts = name.split(/\s+/).filter(Boolean);
+    if (!parts.length) {
+      return 'أ';
+    }
+    return parts.slice(0, 2).map((part) => part[0]).join('');
+  }
+
   @HostListener('window:scroll')
   protected onWindowScroll(): void {
-    this.scrolled.set(window.scrollY > 12);
+    this.scrolled.set(window.scrollY > 8);
+  }
+
+  @HostListener('window:keydown.escape')
+  protected onEscape(): void {
+    this.closeMenu();
+  }
+
+  @HostListener('window:resize')
+  protected onResize(): void {
+    if (window.innerWidth > 980) {
+      this.closeMenu();
+    }
   }
 
   protected toggleMenu(): void {
-    this.menuOpen.update((open) => !open);
+    const next = !this.menuOpen();
+    this.menuOpen.set(next);
+    this.lockScroll(next);
   }
 
   protected closeMenu(): void {
+    if (!this.menuOpen()) {
+      return;
+    }
     this.menuOpen.set(false);
+    this.lockScroll(false);
   }
 
   protected toggleTheme(): void {
@@ -50,6 +78,10 @@ export class Header {
   protected async logout(): Promise<void> {
     this.closeMenu();
     await this.auth.signOut();
+  }
+
+  private lockScroll(locked: boolean): void {
+    document.body.style.overflow = locked ? 'hidden' : '';
   }
 
   private readTheme(): 'dark' | 'light' {
