@@ -6,8 +6,6 @@ import { MotionService } from '../../core/motion';
 import { yearLabel } from '../../models/labels';
 import { CourseCard } from '../../shared';
 
-const WHY_ICONS = ['</>', '{ }', '01', 'AI', 'fn()', '[]', '=>', 'OK'];
-
 @Component({
   selector: 'app-home',
   imports: [RouterLink, CourseCard],
@@ -60,10 +58,6 @@ export class Home implements OnDestroy {
       window.addEventListener('message', this.onMessage);
       this.motion.enterHome();
     });
-  }
-
-  protected whyIcon(index: number): string {
-    return WHY_ICONS[index % WHY_ICONS.length];
   }
 
   ngOnDestroy(): void {
