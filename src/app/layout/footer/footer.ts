@@ -6,6 +6,7 @@ import { AcademyContentService } from '../../services/academy-content';
   selector: 'app-footer',
   imports: [RouterLink],
   templateUrl: './footer.html',
+  styleUrl: './footer.scss',
 })
 export class Footer {
   private readonly content = inject(AcademyContentService);

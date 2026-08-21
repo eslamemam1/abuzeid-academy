@@ -1,42 +1,108 @@
-<section class="hero">
-  <div class="container hero-grid">
-    <div>
-      <span class="eyebrow">أكاديمية أبو زيد • م. إسلام إمام</span>
-      <h1>برمجة وذكاء اصطناعي للبكالوريا في مصر</h1>
-      <p class="lead">
-        دورات للسنة الأولى والثانية بكالوريا وفق النظام السنوي المصري.
-        شرح عملي، تمارين، ومراجعات امتحانات من المهندس إسلام إمام (إسلام أبو زيد).
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" routerLink="/courses">استعرض المواد</a>
-        <a class="btn btn-ghost" routerLink="/about">تعرف على الأكاديمية</a>
-      </div>
-      <form class="search-box" (submit)="$event.preventDefault(); goToCourses()">
-        <input type="search" [formControl]="search" placeholder="ابحث: برمجة، OOP، ذكاء اصطناعي، سنة أولى..." />
-        <button type="submit">بحث</button>
-      </form>
-    </div>
+<section class="hero" (mousemove)="moveHero($event)" (mouseleave)="resetHero()">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="code-float" aria-hidden="true">
+    <span>&lt;/&gt;</span>
+    <span>{{ '{' }}{{ '}' }}</span>
+    <span>01 10</span>
+    <span>AI</span>
+    <span>console.log</span>
+    <span>function()</span>
+  </div>
 
-    <div class="hero-card">
-      <h3>المنهج مناسب لامتحاناتك</h3>
-      <div class="stat-row">
-        <div class="stat"><b>أولى</b> مقدمة برمجة وذكاء اصطناعي</div>
-        <div class="stat"><b>ثانية</b> OOP وهياكل بيانات وتعلم آلة</div>
-        <div class="stat"><b>سنوي</b> نظام البكالوريا المصرية</div>
-        <div class="stat"><b>أونلاين</b> ادرس من أي مكان</div>
-      </div>
+  <div class="container hero-copy">
+    <p class="hero-kicker">أهلاً بكم في أكاديمية أبو زيد</p>
+    <h1>هنا بتتعلم البرمجة من أول سطر</h1>
+    <p class="lead">
+      أهلاً بيك. مش هتحفظ كود وخلاص — هتفهم المتغيرات، الشروط، الحلقات، والدوال،
+      وتكتبها بإيدك من أول حصة. برمجة وذكاء اصطناعي لأولى وتانية بكالوريا.
+    </p>
+    <p class="hero-code">print("أهلاً بكم")  →  أول Commit مع المهندس إسلام إمام</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" routerLink="/register">ابدأ من الصفر</a>
+      <a class="btn btn-ghost" routerLink="/courses">شوف الكورسات</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="container hero-stats">
+    <div class="hero-stat">
+      <b>أولى + تانية</b>
+      <span>طلاب فهموا البرمجة</span>
+    </div>
+    <div class="hero-stat">
+      <b>4.9/5</b>
+      <span>متوسط تقييم الطلبة</span>
+    </div>
+    <div class="hero-stat">
+      <b>120+</b>
+      <span>ساعة شرح وتطبيق</span>
+    </div>
+    <div class="hero-stat">
+      <b>20+</b>
+      <span>مشروع عملي تعمله</span>
+    </div>
+  </div>
+</div>
+
+<section class="section why-section">
+  <div class="container why-grid">
+    <div>
+      <h2>ليه تتعلم البرمجة مع المهندس إسلام إمام؟</h2>
+      <p class="lead">
+        المنصة معمولة لطالب البكالوريا: تكتب كود، تحل، وتراجع للامتحان السنوي.
+        السنة الأولى منفصلة عن السنة التانية، وكل طالب يشوف مواده بس.
+      </p>
+    </div>
+    <div class="why-cards">
+      @for (item of whyFeatures; track item.title) {
+        <article class="why-card">
+          <div class="icon-circle">&lt;/&gt;</div>
+          <h3>{{ item.title }}</h3>
+          <p class="meta">{{ item.text }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section tracks-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">اختر صفك</span>
+      <h2>اختر صفك.. وابدأ أول Commit</h2>
+      <p>سنة أولى، سنة تانية، أو مدخل الذكاء الاصطناعي — كل مسار ليه تمارينه.</p>
+    </div>
+    <div class="track-grid">
+      @for (track of classTracks; track track.id; let i = $index) {
+        <article class="track-card" [class.is-featured]="i === 1">
+          <div class="track-ide">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <pre>{{ track.code }}</pre>
+          </div>
+          <div class="track-body">
+            <p class="meta">{{ track.kicker }}</p>
+            <h3>{{ track.title }}</h3>
+            <p class="meta">{{ track.text }}</p>
+            <a class="btn btn-ghost" routerLink="/courses">ابدأ المسار</a>
+          </div>
+        </article>
+      }
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">المواد</span>
-      <h2>{{ featuredTitle() }}</h2>
-      <p>{{ featuredSubtitle() }}</p>
+    <div class="section-row">
+      <div>
+        <h2>{{ featuredTitle() }}</h2>
+        <p class="lead">{{ featuredSubtitle() }}</p>
+      </div>
+      <a class="btn btn-primary" routerLink="/courses">كل الكورسات</a>
     </div>
-    <div class="grid-3">
+    <div class="grid-4 course-row">
       @for (course of featured(); track course.id) {
         <app-course-card [course]="course" />
       }
@@ -44,71 +110,70 @@
   </div>
 </section>
 
-<section class="section" style="padding-top: 0;">
+<section class="section lab-section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">ليه الأكاديمية؟</span>
-      <h2>مش شرح عام.. ده منهج بكالوريا</h2>
+      <span class="eyebrow">مختبر الكود</span>
+      <h2>اكتب الكود وشوف النتيجة فورًا</h2>
+      <p>جرّب، عدّل، وشغّل بنفسك. النتيجة والأخطاء تظهر حالاً عشان تتعلم بالعمل مش بالحفظ.</p>
     </div>
-    <div class="grid-4">
-      <article class="feature-card">
-        <div class="icon-circle">1</div>
-        <h3>سنة أولى</h3>
-        <p class="meta">مقدمة البرمجة، حل المشكلات، ومدخل الذكاء الاصطناعي.</p>
-      </article>
-      <article class="feature-card">
-        <div class="icon-circle">2</div>
-        <h3>سنة ثانية</h3>
-        <p class="meta">OOP، هياكل البيانات، بايثون، وتعلم الآلة للمبتدئين.</p>
-      </article>
-      <article class="feature-card">
-        <div class="icon-circle">3</div>
-        <h3>نظام سنوي</h3>
-        <p class="meta">الشرح مربوط بورقة الامتحان ومراجعات نهاية العام.</p>
-      </article>
-      <article class="feature-card">
-        <div class="icon-circle">4</div>
-        <h3>شهادة إتمام</h3>
-        <p class="meta">بعد الدورة تقدر تتحقق من الشهادة من المنصة.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top: 0;">
-  <div class="container">
-    <div class="cta-band">
-      <div>
-        <h2>جهّز مادة البرمجة والذكاء الاصطناعي من دلوقتي</h2>
-        <p>سجّل في دفعة السنة الدراسية الحالية مع أكاديمية أبو زيد.</p>
+    <div class="lab">
+      <div class="lab-toolbar">
+        <div class="lab-actions">
+          <button class="btn btn-ghost" type="button" (click)="copyCode()">نسخ الكود</button>
+          <button class="btn btn-ghost" type="button" (click)="clearOutput()">امسح النتيجة</button>
+          <button class="btn btn-ghost" type="button" (click)="resetExample()">إعادة المثال</button>
+        </div>
+        <button class="btn btn-primary" type="button" (click)="runCode()" [disabled]="running()">
+          {{ running() ? 'جاري التشغيل...' : 'شغّل الكود' }}
+        </button>
+        <span class="meta">playground.js</span>
       </div>
-      <a class="btn btn-navy" routerLink="/contact">احجز مكانك</a>
+      <div class="lab-panes">
+        <pre class="lab-console">{{ output() }}</pre>
+        <textarea class="lab-editor" [value]="code()" (input)="updateCode($event)" spellcheck="false"></textarea>
+      </div>
+      <iframe id="playground-frame" class="lab-frame" sandbox="allow-scripts" title="مشغّل الكود"></iframe>
     </div>
   </div>
 </section>
 
-<section class="section" style="padding-top: 0;">
+<section class="section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">المؤسس والمدرب</span>
-      <h2>تعلم مباشرة مع المهندس إسلام إمام</h2>
+      <h2>مين المهندس إسلام إمام؟</h2>
+      <p>{{ instructor.bio }}</p>
     </div>
-    <div class="grid-2">
-      @for (person of instructors; track person.name) {
-        <article class="instructor-card">
-          <h3>{{ person.name }}</h3>
-          <p class="eyebrow" style="margin-top: 8px;">{{ person.role }}</p>
-          <p class="meta">{{ person.bio }}</p>
-        </article>
-      }
-      <article class="instructor-card">
-        <h3>أكاديمية أبو زيد</h3>
-        <p class="eyebrow" style="margin-top: 8px;">منصة خاصة بطلاب البكالوريا</p>
-        <p class="meta">
-          الأكاديمية باسم أبو زيد، والمدرب هو المهندس إسلام إمام.
-          الهدف: تخلي مادة البرمجة والذكاء الاصطناعي مفهومة، وتروح الامتحان السنوي وأنت جاهز.
-        </p>
+    <div class="about-pills">
+      <article class="why-card">
+        <h3>شرح عملي</h3>
+        <p class="meta">كود وتمارين من أول حصة.</p>
       </article>
+      <article class="why-card">
+        <h3>تدريب مستمر</h3>
+        <p class="meta">مسائل تثبت الفكرة قبل الامتحان.</p>
+      </article>
+      <article class="why-card">
+        <h3>متابعة واختبارات</h3>
+        <p class="meta">درجات وامتحانات على المنصة.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section faq-section">
+  <div class="container">
+    <h2 class="faq-title">الأسئلة الشائعة</h2>
+    <div class="faq-box">
+      @for (item of faqs; track item.q; let i = $index) {
+        <button class="faq-item" type="button" (click)="toggleFaq(i)" [class.open]="openFaq() === i">
+          <span>{{ item.q }}</span>
+          <b>+</b>
+        </button>
+        @if (openFaq() === i) {
+          <p class="faq-answer">{{ item.a }}</p>
+        }
+      }
     </div>
   </div>
 </section>

@@ -5,6 +5,21 @@
   <title>أكاديمية أبو زيد | برمجة وذكاء اصطناعي</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#562989">
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem('academy-theme') === 'dark' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute(
+          'content',
+          theme === 'dark' ? '#0b0714' : '#562989',
+        );
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
   <meta name="description" content="أكاديمية أبو زيد للمهندس إسلام إمام: دورات برمجة وذكاء اصطناعي لطلاب السنة الأولى والثانية بكالوريا وفق النظام السنوي المصري.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -14,7 +29,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <app-root></app-root>

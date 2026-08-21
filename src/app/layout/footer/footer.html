@@ -9,16 +9,18 @@
     </div>
 
     <div>
-      <h4>روابط سريعة</h4>
+      <h4>الصفحات</h4>
       @for (item of nav; track item.path) {
         <p><a [routerLink]="item.path">{{ item.label }}</a></p>
       }
+      <p><a routerLink="/register">إنشاء حساب جديد</a></p>
+      <p><a routerLink="/login">تسجيل الدخول</a></p>
     </div>
 
     <div>
       <h4>المواد</h4>
       <p>برمجة سنة أولى</p>
-      <p>برمجة سنة ثانية</p>
+      <p>برمجة سنة تانية</p>
       <p>ذكاء اصطناعي</p>
       <p>مراجعات امتحانات</p>
     </div>
@@ -28,7 +30,7 @@
       <p>{{ academy.location }}</p>
       <p>{{ academy.founder }}</p>
       <p>النظام: {{ academy.system }}</p>
-      <p><a routerLink="/contact">أرسل رسالة من هنا</a></p>
+      <a class="btn btn-ghost footer-whatsapp" routerLink="/contact">تواصل معنا</a>
     </div>
   </div>
 

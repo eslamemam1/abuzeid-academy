@@ -1,27 +1,34 @@
-import { Component, computed, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { afterNextRender, Component, computed, inject, OnDestroy, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CourseService } from '../../services/course';
 import { AcademyContentService } from '../../services/academy-content';
+import { MotionService } from '../../core/motion';
 import { yearLabel } from '../../models/labels';
 import { CourseCard } from '../../shared';
 
+const SAMPLE = `console.log('أهلاً بيك في مختبر أكاديمية أبو زيد');
+const goal = 'بكالوريا';
+console.log('هدفك:', goal);
+`;
+
 @Component({
   selector: 'app-home',
-  imports: [ReactiveFormsModule, RouterLink, CourseCard],
+  imports: [RouterLink, CourseCard],
   templateUrl: './home.html',
 })
-export class Home {
+export class Home implements OnDestroy {
   private readonly coursesApi = inject(CourseService);
   private readonly content = inject(AcademyContentService);
-  private readonly router = inject(Router);
+  private readonly motion = inject(MotionService);
 
-  protected readonly search = new FormControl('', { nonNullable: true });
-  protected readonly featured = computed(() => this.coursesApi.getFeatured());
-  protected readonly instructors = this.content.instructors;
+  protected readonly featured = computed(() => this.coursesApi.getFeatured().slice(0, 4));
+  protected readonly instructor = this.content.instructors[0];
+  protected readonly whyFeatures = this.content.whyFeatures;
+  protected readonly classTracks = this.content.classTracks;
+  protected readonly faqs = this.content.faqs;
   protected readonly featuredTitle = computed(() => {
     const year = this.coursesApi.studentYear();
-    return year ? `أبرز مواد ${yearLabel(year)}` : 'أبرز دورات السنة الأولى والثانية';
+    return year ? `كورسات ${yearLabel(year)} المميزة` : 'كورساتنا المميزة';
   });
   protected readonly featuredSubtitle = computed(() => {
     const year = this.coursesApi.studentYear();
@@ -30,8 +37,78 @@ export class Home {
       : 'برمجة وذكاء اصطناعي بنفس أسلوب الامتحان السنوي، بشرح المهندس إسلام إمام.';
   });
 
-  protected goToCourses(): void {
-    const q = this.search.value.trim();
-    void this.router.navigate(['/courses'], { queryParams: q ? { q } : {} });
+  protected readonly openFaq = signal(0);
+  protected readonly code = signal(SAMPLE);
+  protected readonly output = signal('شغّل الكود عشان تشوف النتيجة هنا.');
+  protected readonly running = signal(false);
+  private readonly onMessage = (event: MessageEvent) => {
+    const data = event.data as { type?: string; logs?: string[] };
+    if (data?.type === 'abuzeid-playground') {
+      this.output.set((data.logs ?? []).join('\n') || 'لا يوجد خرج.');
+      this.running.set(false);
+    }
+  };
+
+  constructor() {
+    afterNextRender(() => {
+      window.addEventListener('message', this.onMessage);
+      this.motion.enterHome();
+    });
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('message', this.onMessage);
+    this.motion.leaveHome();
+  }
+
+  protected moveHero(event: MouseEvent): void {
+    this.motion.moveHero(event);
+  }
+
+  protected resetHero(): void {
+    this.motion.resetHero();
+  }
+
+  protected toggleFaq(index: number): void {
+    this.openFaq.update((current) => (current === index ? -1 : index));
+  }
+
+  protected updateCode(event: Event): void {
+    this.code.set((event.target as HTMLTextAreaElement).value);
+  }
+
+  protected copyCode(): void {
+    void navigator.clipboard.writeText(this.code());
+  }
+
+  protected clearOutput(): void {
+    this.output.set('');
+  }
+
+  protected resetExample(): void {
+    this.code.set(SAMPLE);
+    this.output.set('شغّل الكود عشان تشوف النتيجة هنا.');
+  }
+
+  protected runCode(): void {
+    this.running.set(true);
+    const source = JSON.stringify(this.code());
+    const html = `<!doctype html><html><body><script>
+      const logs = [];
+      const write = (...args) => logs.push(args.map((item) => String(item)).join(' '));
+      console.log = write;
+      console.error = write;
+      console.warn = write;
+      try {
+        eval(${source});
+      } catch (error) {
+        logs.push('خطأ: ' + (error && error.message ? error.message : error));
+      }
+      parent.postMessage({ type: 'abuzeid-playground', logs }, '*');
+    </script></body></html>`;
+    const frame = document.getElementById('playground-frame') as HTMLIFrameElement | null;
+    if (frame) {
+      frame.srcdoc = html;
+    }
   }
 }

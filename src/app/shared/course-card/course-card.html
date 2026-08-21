@@ -6,11 +6,11 @@
     </div>
     <div class="course-body">
       <h3>{{ item.title }}</h3>
-      <p class="meta">المدرب: {{ item.instructor }}</p>
-      <p class="meta">{{ item.duration }} • {{ item.typeLabel }}</p>
-      <div class="price-row">
-        <span class="price">{{ item.price > 0 ? item.price + ' ج.م' : 'أونلاين' }}</span>
-        <a class="btn btn-navy" [routerLink]="['/courses', item.id]">التفاصيل</a>
+      <p class="meta">{{ item.date }} • {{ item.price > 0 ? item.price + ' ج.م' : 'أونلاين' }}</p>
+      <p class="meta course-blurb">{{ item.description }}</p>
+      <div class="course-actions">
+        <a class="btn btn-ghost" [routerLink]="['/courses', item.id]">ادخل الكورس</a>
+        <a class="btn btn-primary" routerLink="/register">اشترك في الكورس</a>
       </div>
     </div>
   </article>

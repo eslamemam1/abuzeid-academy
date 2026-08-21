@@ -1,5 +1,10 @@
-<app-header />
-<main>
-  <router-outlet />
-</main>
-<app-footer />
+<div class="app-shell">
+  <app-header />
+  <main class="app-main">
+    <router-outlet />
+  </main>
+  <app-footer />
+</div>
+
+<a class="chat-fab" routerLink="/contact" aria-label="تواصل معنا">💬</a>
+<p class="chat-bubble">أهلاً يا صديقي! اسألنا هنا لو عندك أي استفسار</p>

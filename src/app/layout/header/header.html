@@ -1,14 +1,22 @@
-<header class="site-header">
-  <div class="container topbar">
-    <span>مصر • بكالوريا سنوي • سنة أولى وثانية</span>
-    <span>{{ academy.founder }}</span>
-  </div>
-
+<header class="site-header" [class.is-scrolled]="scrolled()">
   <div class="container navbar">
     <a class="brand" routerLink="/" (click)="closeMenu()">
       <span class="brand-mark">أز</span>
       <span>{{ academy.name }}</span>
     </a>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      (click)="toggleTheme()"
+      [attr.aria-label]="theme() === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'"
+    >
+      @if (theme() === 'dark') {
+        <span>🌙</span>
+      } @else {
+        <span>☀️</span>
+      }
+    </button>
 
     <nav>
       <ul class="nav-links">
@@ -37,8 +45,8 @@
         <a class="btn btn-primary" [routerLink]="auth.dashboardLink()">لوحتي</a>
         <button class="btn btn-ghost" type="button" (click)="logout()">خروج</button>
       } @else {
-        <a class="btn btn-ghost" routerLink="/login">دخول</a>
-        <a class="btn btn-primary" routerLink="/register">حساب طالب</a>
+        <a class="btn btn-ghost" routerLink="/login">تسجيل الدخول</a>
+        <a class="btn btn-primary" routerLink="/register">حساب جديد</a>
       }
     </div>
     <button class="menu-btn" type="button" (click)="toggleMenu()">القائمة</button>
@@ -56,8 +64,8 @@
         <a [routerLink]="auth.dashboardLink()">لوحتي</a>
         <a href="#" (click)="$event.preventDefault(); logout()">خروج</a>
       } @else {
-        <a routerLink="/login">دخول</a>
-        <a routerLink="/register">حساب طالب</a>
+        <a routerLink="/login">تسجيل الدخول</a>
+        <a routerLink="/register">حساب جديد</a>
       }
     </nav>
   }

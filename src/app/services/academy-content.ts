@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ACADEMY, INSTRUCTORS } from '../data/academy.data';
+import { ACADEMY, CLASS_TRACKS, FAQS, INSTRUCTORS, WHY_FEATURES } from '../data/academy.data';
 
 export interface NavItem {
   path: string;
@@ -11,6 +11,9 @@ export interface NavItem {
 export class AcademyContentService {
   readonly academy = ACADEMY;
   readonly instructors = INSTRUCTORS;
+  readonly whyFeatures = WHY_FEATURES;
+  readonly classTracks = CLASS_TRACKS;
+  readonly faqs = FAQS;
 
   readonly publicNav: NavItem[] = [
     { path: '/', label: 'الرئيسية', exact: true },
