@@ -103,7 +103,7 @@
 
 .theme-switch:not(.is-dark) .theme-sun {
   opacity: 1;
-  color: #e8a317;
+  color: var(--primary);
 }
 
 .theme-switch.is-dark .theme-moon {
