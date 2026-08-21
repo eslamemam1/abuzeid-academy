@@ -11,13 +11,10 @@
   </div>
 
   <div class="container hero-copy">
-    <p class="hero-kicker">أهلاً بكم في أكاديمية أبو زيد</p>
-    <h1>هنا بتتعلم البرمجة من أول سطر</h1>
-    <p class="lead">
-      أهلاً بيك. مش هتحفظ كود وخلاص — هتفهم المتغيرات، الشروط، الحلقات، والدوال،
-      وتكتبها بإيدك من أول حصة. برمجة وذكاء اصطناعي لأولى وتانية بكالوريا.
-    </p>
-    <p class="hero-code">print("أهلاً بكم")  →  أول Commit مع المهندس إسلام إمام</p>
+    <p class="hero-kicker">{{ academy().heroKicker }}</p>
+    <h1>{{ academy().heroTitle }}</h1>
+    <p class="lead">{{ academy().heroLead }}</p>
+    <p class="hero-code">{{ academy().heroCode }}</p>
     <div class="hero-actions">
       <a class="btn btn-primary" routerLink="/register">ابدأ من الصفر</a>
       <a class="btn btn-ghost" routerLink="/courses">شوف الكورسات</a>
@@ -27,36 +24,23 @@
 
 <div class="stats-bar">
   <div class="container hero-stats">
-    <div class="hero-stat">
-      <b>أولى + تانية</b>
-      <span>طلاب فهموا البرمجة</span>
-    </div>
-    <div class="hero-stat">
-      <b>4.9/5</b>
-      <span>متوسط تقييم الطلبة</span>
-    </div>
-    <div class="hero-stat">
-      <b>120+</b>
-      <span>ساعة شرح وتطبيق</span>
-    </div>
-    <div class="hero-stat">
-      <b>20+</b>
-      <span>مشروع عملي تعمله</span>
-    </div>
+    @for (item of stats(); track item.label) {
+      <div class="hero-stat">
+        <b>{{ item.value }}</b>
+        <span>{{ item.label }}</span>
+      </div>
+    }
   </div>
 </div>
 
 <section class="section why-section">
   <div class="container why-grid">
     <div>
-      <h2>ليه تتعلم البرمجة مع المهندس إسلام إمام؟</h2>
-      <p class="lead">
-        المنصة معمولة لطالب البكالوريا: تكتب كود، تحل، وتراجع للامتحان السنوي.
-        السنة الأولى منفصلة عن السنة التانية، وكل طالب يشوف مواده بس.
-      </p>
+      <h2>{{ academy().whyTitle }}</h2>
+      <p class="lead">{{ academy().whyLead }}</p>
     </div>
     <div class="why-cards">
-      @for (item of whyFeatures; track item.title) {
+      @for (item of whyFeatures(); track item.title) {
         <article class="why-card">
           <div class="icon-circle">&lt;/&gt;</div>
           <h3>{{ item.title }}</h3>
@@ -70,12 +54,12 @@
 <section class="section tracks-section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">اختر صفك</span>
-      <h2>اختر صفك.. وابدأ أول Commit</h2>
-      <p>سنة أولى، سنة تانية، أو مدخل الذكاء الاصطناعي — كل مسار ليه تمارينه.</p>
+      <span class="eyebrow">{{ academy().tracksEyebrow }}</span>
+      <h2>{{ academy().tracksTitle }}</h2>
+      <p>{{ academy().tracksLead }}</p>
     </div>
     <div class="track-grid">
-      @for (track of classTracks; track track.id; let i = $index) {
+      @for (track of classTracks(); track track.id; let i = $index) {
         <article class="track-card" [class.is-featured]="i === 1">
           <div class="track-ide">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -113,9 +97,9 @@
 <section class="section lab-section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">مختبر الكود</span>
-      <h2>اكتب الكود وشوف النتيجة فورًا</h2>
-      <p>جرّب، عدّل، وشغّل بنفسك. النتيجة والأخطاء تظهر حالاً عشان تتعلم بالعمل مش بالحفظ.</p>
+      <span class="eyebrow">{{ academy().labEyebrow }}</span>
+      <h2>{{ academy().labTitle }}</h2>
+      <p>{{ academy().labLead }}</p>
     </div>
     <div class="lab">
       <div class="lab-toolbar">
@@ -141,31 +125,27 @@
 <section class="section">
   <div class="container">
     <div class="section-head">
-      <h2>مين المهندس إسلام إمام؟</h2>
-      <p>{{ instructor.bio }}</p>
+      <h2>{{ academy().aboutTitle }}</h2>
+      @if (instructor(); as person) {
+        <p>{{ person.bio }}</p>
+      }
     </div>
     <div class="about-pills">
-      <article class="why-card">
-        <h3>شرح عملي</h3>
-        <p class="meta">كود وتمارين من أول حصة.</p>
-      </article>
-      <article class="why-card">
-        <h3>تدريب مستمر</h3>
-        <p class="meta">مسائل تثبت الفكرة قبل الامتحان.</p>
-      </article>
-      <article class="why-card">
-        <h3>متابعة واختبارات</h3>
-        <p class="meta">درجات وامتحانات على المنصة.</p>
-      </article>
+      @for (item of aboutPills(); track item.title) {
+        <article class="why-card">
+          <h3>{{ item.title }}</h3>
+          <p class="meta">{{ item.text }}</p>
+        </article>
+      }
     </div>
   </div>
 </section>
 
 <section class="section faq-section">
   <div class="container">
-    <h2 class="faq-title">الأسئلة الشائعة</h2>
+    <h2 class="faq-title">{{ academy().faqTitle }}</h2>
     <div class="faq-box">
-      @for (item of faqs; track item.q; let i = $index) {
+      @for (item of faqs(); track item.q; let i = $index) {
         <button class="faq-item" type="button" (click)="toggleFaq(i)" [class.open]="openFaq() === i">
           <span>{{ item.q }}</span>
           <b>+</b>

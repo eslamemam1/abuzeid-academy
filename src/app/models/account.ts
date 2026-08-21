@@ -19,6 +19,16 @@ export interface DbCourse {
   category: CourseCategory;
   year_level: YearLevel;
   description: string | null;
+  instructor: string;
+  price: number;
+  duration: string;
+  course_date: string;
+  students: number;
+  rating: number;
+  lessons: number;
+  featured: boolean;
+  outcomes: string[];
+  course_type: 'recorded' | 'online' | 'in-person';
 }
 
 export interface Enrollment {

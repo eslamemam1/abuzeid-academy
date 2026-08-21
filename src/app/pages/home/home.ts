@@ -1,15 +1,10 @@
-import { afterNextRender, Component, computed, inject, OnDestroy, signal } from '@angular/core';
+import { afterNextRender, Component, computed, effect, inject, OnDestroy, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CourseService } from '../../services/course';
 import { AcademyContentService } from '../../services/academy-content';
 import { MotionService } from '../../core/motion';
 import { yearLabel } from '../../models/labels';
 import { CourseCard } from '../../shared';
-
-const SAMPLE = `console.log('أهلاً بيك في مختبر أكاديمية أبو زيد');
-const goal = 'بكالوريا';
-console.log('هدفك:', goal);
-`;
 
 @Component({
   selector: 'app-home',
@@ -21,11 +16,14 @@ export class Home implements OnDestroy {
   private readonly content = inject(AcademyContentService);
   private readonly motion = inject(MotionService);
 
-  protected readonly featured = computed(() => this.coursesApi.getFeatured().slice(0, 4));
-  protected readonly instructor = this.content.instructors[0];
+  protected readonly academy = this.content.academy;
+  protected readonly featured = computed(() => this.coursesApi.getFeatured());
+  protected readonly instructor = computed(() => this.content.instructors()[0] ?? null);
   protected readonly whyFeatures = this.content.whyFeatures;
   protected readonly classTracks = this.content.classTracks;
   protected readonly faqs = this.content.faqs;
+  protected readonly stats = this.content.stats;
+  protected readonly aboutPills = this.content.aboutPills;
   protected readonly featuredTitle = computed(() => {
     const year = this.coursesApi.studentYear();
     return year ? `كورسات ${yearLabel(year)} المميزة` : 'كورساتنا المميزة';
@@ -34,11 +32,11 @@ export class Home implements OnDestroy {
     const year = this.coursesApi.studentYear();
     return year
       ? `مواد سنتك فقط. السنة التانية مش هتظهر هنا.`
-      : 'برمجة وذكاء اصطناعي بنفس أسلوب الامتحان السنوي، بشرح المهندس إسلام إمام.';
+      : this.academy().tagline;
   });
 
   protected readonly openFaq = signal(0);
-  protected readonly code = signal(SAMPLE);
+  protected readonly code = signal(this.content.academy().playgroundCode);
   protected readonly output = signal('شغّل الكود عشان تشوف النتيجة هنا.');
   protected readonly running = signal(false);
   private readonly onMessage = (event: MessageEvent) => {
@@ -50,6 +48,11 @@ export class Home implements OnDestroy {
   };
 
   constructor() {
+    effect(() => {
+      if (this.content.loaded()) {
+        this.code.set(this.content.academy().playgroundCode);
+      }
+    });
     afterNextRender(() => {
       window.addEventListener('message', this.onMessage);
       this.motion.enterHome();
@@ -86,7 +89,7 @@ export class Home implements OnDestroy {
   }
 
   protected resetExample(): void {
-    this.code.set(SAMPLE);
+    this.code.set(this.academy().playgroundCode);
     this.output.set('شغّل الكود عشان تشوف النتيجة هنا.');
   }
 

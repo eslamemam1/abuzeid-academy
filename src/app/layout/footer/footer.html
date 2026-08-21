@@ -1,9 +1,9 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <h3>{{ academy.name }}</h3>
+      <h3>{{ academy().name }}</h3>
       <p>
-        منصة {{ academy.founderFull }} لشرح مواد البرمجة والذكاء الاصطناعي
+        منصة {{ academy().founderFull }} لشرح مواد البرمجة والذكاء الاصطناعي
         لطلاب السنة الأولى والثانية بكالوريا وفق النظام السنوي المصري.
       </p>
     </div>
@@ -27,15 +27,15 @@
 
     <div>
       <h4>تواصل معنا</h4>
-      <p>{{ academy.location }}</p>
-      <p>{{ academy.founder }}</p>
-      <p>النظام: {{ academy.system }}</p>
+      <p>{{ academy().location }}</p>
+      <p>{{ academy().founder }}</p>
+      <p>النظام: {{ academy().system }}</p>
       <a class="btn btn-ghost footer-whatsapp" routerLink="/contact">تواصل معنا</a>
     </div>
   </div>
 
   <div class="container footer-copy">
-    <span>© 2026 {{ academy.name }}. جميع الحقوق محفوظة.</span>
-    <span>{{ academy.founder }}</span>
+    <span>© 2026 {{ academy().name }}. جميع الحقوق محفوظة.</span>
+    <span>{{ academy().founder }}</span>
   </div>
 </footer>

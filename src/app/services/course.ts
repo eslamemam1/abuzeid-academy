@@ -1,9 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { supabase } from '../core/supabase-client';
-import { ACADEMY } from '../data/academy.data';
 import { DbCourse, YearLevel } from '../models/account';
-import { Course, CourseFilter } from '../models/course';
-import { categoryLabel, yearLabel } from '../models/labels';
+import { Course, CourseFilter, CourseType } from '../models/course';
+import { categoryLabel, typeLabel, yearLabel } from '../models/labels';
 import { AuthService } from './auth';
 
 export interface CourseInput {
@@ -36,7 +35,11 @@ export class CourseService {
   }
 
   async list(): Promise<DbCourse[]> {
-    const { data, error } = await supabase.from('courses').select('*').order('year_level');
+    const { data, error } = await supabase
+      .from('courses')
+      .select('*')
+      .order('featured', { ascending: false })
+      .order('year_level');
     if (error) {
       throw error;
     }
@@ -75,7 +78,9 @@ export class CourseService {
   }
 
   getFeatured(): Course[] {
-    return this.visibleCatalog().slice(0, 6);
+    const all = this.visibleCatalog();
+    const featured = all.filter((course) => course.featured);
+    return (featured.length ? featured : all).slice(0, 4);
   }
 
   getById(id: string): Course | undefined {
@@ -129,6 +134,7 @@ export class CourseService {
   }
 
   private mapCourse(row: DbCourse): Course {
+    const type = (row.course_type || 'online') as CourseType;
     return {
       id: row.slug || row.id,
       title: row.title,
@@ -136,17 +142,18 @@ export class CourseService {
       categoryLabel: categoryLabel(row.category),
       level: row.year_level,
       levelLabel: yearLabel(row.year_level),
-      type: 'online',
-      typeLabel: 'دورة أونلاين',
-      instructor: ACADEMY.founder,
-      price: 0,
-      duration: 'نظام سنوي',
-      date: 'العام الدراسي الحالي',
-      students: 0,
-      rating: 5,
-      lessons: 0,
+      type,
+      typeLabel: typeLabel(type),
+      instructor: row.instructor || 'م. إسلام إمام',
+      price: Number(row.price ?? 0),
+      duration: row.duration || 'نظام سنوي',
+      date: row.course_date || 'العام الدراسي الحالي',
+      students: Number(row.students ?? 0),
+      rating: Number(row.rating ?? 5),
+      lessons: Number(row.lessons ?? 0),
+      featured: Boolean(row.featured),
       description: row.description || 'دورة برمجة وذكاء اصطناعي لطلاب البكالوريا.',
-      outcomes: [],
+      outcomes: row.outcomes ?? [],
     };
   }
 }
