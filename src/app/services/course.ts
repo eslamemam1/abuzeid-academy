@@ -81,7 +81,8 @@ export class CourseService {
   getFeatured(): Course[] {
     const all = this.visibleCatalog();
     const featured = all.filter((course) => course.featured);
-    return (featured.length ? featured : all).slice(0, 4);
+    const list = (featured.length ? featured : all).slice(0, 4);
+    return [...list].sort((a, b) => a.price - b.price || a.level.localeCompare(b.level));
   }
 
   getById(id: string): Course | undefined {

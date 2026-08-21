@@ -2,11 +2,10 @@ import { Component, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
-  lucideBanknote,
-  lucideBookOpen,
+  lucideCalendarDays,
   lucideChevronDown,
-  lucideClock,
-  lucideUser,
+  lucideGraduationCap,
+  lucideLayers,
 } from '@ng-icons/lucide';
 import { Course } from '../../models/course';
 
@@ -15,10 +14,9 @@ import { Course } from '../../models/course';
   imports: [RouterLink, NgIcon],
   providers: [
     provideIcons({
-      lucideBanknote,
-      lucideBookOpen,
-      lucideClock,
-      lucideUser,
+      lucideCalendarDays,
+      lucideGraduationCap,
+      lucideLayers,
       lucideChevronDown,
     }),
   ],
@@ -31,10 +29,6 @@ export class CourseCard {
 
   protected toggleDetails(): void {
     this.open.update((value) => !value);
-  }
-
-  protected priceLabel(price: number): string {
-    return price > 0 ? `${price} L.E` : 'مجاني';
   }
 
   protected priceText(price: number): string {

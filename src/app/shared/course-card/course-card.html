@@ -1,27 +1,22 @@
 @if (course(); as item) {
   <article class="course-card">
     <div class="course-cover" [class]="item.category">
-      <span class="course-year">2026</span>
-      <span class="course-price-tag">{{ priceLabel(item.price) }}</span>
+      <span class="course-price-tag">{{ priceText(item.price) }}</span>
     </div>
     <div class="course-body">
       <h3>{{ item.title }}</h3>
       <ul class="course-details">
         <li>
-          <ng-icon name="lucideBanknote" size="16"></ng-icon>
-          <span>{{ priceText(item.price) }}</span>
+          <ng-icon name="lucideCalendarDays" size="16"></ng-icon>
+          <span>{{ item.date }}</span>
         </li>
         <li>
-          <ng-icon name="lucideClock" size="16"></ng-icon>
-          <span>{{ item.duration }}</span>
+          <ng-icon name="lucideGraduationCap" size="16"></ng-icon>
+          <span>{{ item.levelLabel }}</span>
         </li>
         <li>
-          <ng-icon name="lucideBookOpen" size="16"></ng-icon>
-          <span>{{ item.lessons }} حصة</span>
-        </li>
-        <li>
-          <ng-icon name="lucideUser" size="16"></ng-icon>
-          <span>{{ item.instructor }}</span>
+          <ng-icon name="lucideLayers" size="16"></ng-icon>
+          <span>{{ item.categoryLabel }}</span>
         </li>
       </ul>
       <button class="course-more" type="button" (click)="toggleDetails()" [class.open]="open()">
