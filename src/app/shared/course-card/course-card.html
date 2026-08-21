@@ -1,16 +1,39 @@
 @if (course(); as item) {
   <article class="course-card">
     <div class="course-cover" [class]="item.category">
-      <span class="badge">{{ item.levelLabel }}</span>
-      <span>{{ item.categoryLabel }}</span>
+      <span class="course-year">2026</span>
+      <span class="course-price-tag">{{ priceLabel(item.price) }}</span>
     </div>
     <div class="course-body">
       <h3>{{ item.title }}</h3>
-      <p class="meta">{{ item.date }} • {{ item.price > 0 ? item.price + ' ج.م' : 'أونلاين' }}</p>
-      <p class="meta course-blurb">{{ item.description }}</p>
+      <ul class="course-details">
+        <li>
+          <ng-icon name="lucideBanknote" size="16"></ng-icon>
+          <span>{{ priceText(item.price) }}</span>
+        </li>
+        <li>
+          <ng-icon name="lucideClock" size="16"></ng-icon>
+          <span>{{ item.duration }}</span>
+        </li>
+        <li>
+          <ng-icon name="lucideBookOpen" size="16"></ng-icon>
+          <span>{{ item.lessons }} حصة</span>
+        </li>
+        <li>
+          <ng-icon name="lucideUser" size="16"></ng-icon>
+          <span>{{ item.instructor }}</span>
+        </li>
+      </ul>
+      <button class="course-more" type="button" (click)="toggleDetails()" [class.open]="open()">
+        عرض باقي التفاصيل
+        <ng-icon name="lucideChevronDown" size="16"></ng-icon>
+      </button>
+      @if (open()) {
+        <p class="course-extra">{{ item.description }}</p>
+      }
       <div class="course-actions">
-        <a class="btn btn-ghost" [routerLink]="['/courses', item.id]">ادخل الكورس</a>
-        <a class="btn btn-primary" routerLink="/register">اشترك في الكورس</a>
+        <a class="btn btn-ghost" [routerLink]="['/courses', item.id]">الدخول للكورس</a>
+        <a class="btn btn-primary" routerLink="/register">الإشتراك في الكورس !</a>
       </div>
     </div>
   </article>

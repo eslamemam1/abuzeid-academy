@@ -28,18 +28,18 @@ export class MotionService {
 
     this.ctx = gsap.context(() => {
       this.playHero();
-      this.reveal('.hero-stat', { y: 28, stagger: 0.1 }, '.stats-bar');
+      this.playStats();
       this.reveal('.why-intro > *', { y: 26, stagger: 0.1 }, '.why-section');
       this.reveal('.why-cards .why-card', { y: 56, stagger: 0.07 }, '.why-section');
       this.reveal('.section-head, .section-row, .faq-title', { y: 30, stagger: 0.08 });
       this.reveal('.track-card', { y: 48, stagger: 0.12 }, '.tracks-section');
-      this.reveal('.course-row .course-card', { y: 48, stagger: 0.08 });
+      this.playCourses('.course-row');
       this.reveal('.lab', { y: 40 }, '.lab-section');
       this.reveal('.about-grid > *', { y: 36, stagger: 0.12 }, '.about-section');
       this.reveal('.about-pills .why-card', { y: 32, stagger: 0.1 }, '.about-section');
       this.reveal('.faq-box', { y: 36 }, '.faq-section');
       this.playFloat();
-      this.bindHover('.why-cards .why-card, .track-card, .course-card');
+      this.bindHover('.why-cards .why-card, .track-card');
     });
 
     ScrollTrigger.refresh();
@@ -52,11 +52,11 @@ export class MotionService {
     }
 
     this.ctx = gsap.context(() => {
-      this.reveal('.page-hero, .panel, .course-card, .cta-band, .footer-grid > *', {
+      this.reveal('.page-hero, .panel, .cta-band, .footer-grid > *', {
         y: 34,
         stagger: 0.07,
       });
-      this.bindHover('.course-card');
+      this.playCourses('.grid-4, .grid-3, .course-row');
     });
 
     ScrollTrigger.refresh();
@@ -85,6 +85,84 @@ export class MotionService {
   resetHero(): void {
     gsap.to('.hero-bg', { x: 0, y: 0, duration: 1, ease: 'power3.out' });
     gsap.to('.code-float', { x: 0, y: 0, duration: 1, ease: 'power3.out' });
+  }
+
+  private playStats(): void {
+    const bar = document.querySelector('.stats-bar');
+    const cards = gsap.utils.toArray<HTMLElement>('.hero-stat');
+    if (!bar || !cards.length) {
+      return;
+    }
+
+    gsap.fromTo(
+      cards,
+      { opacity: 0, scale: 0.86 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.55,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: bar,
+          start: 'top 90%',
+          once: true,
+        },
+      },
+    );
+
+    cards.forEach((card, index) => {
+      const valueEl = card.querySelector('b');
+      if (!valueEl) {
+        return;
+      }
+      const raw = (valueEl.textContent ?? '').trim();
+      const match = raw.match(/(\d+(?:\.\d+)?)/);
+      if (!match || match.index === undefined) {
+        return;
+      }
+      const end = Number(match[1]);
+      const prefix = raw.slice(0, match.index);
+      const suffix = raw.slice(match.index + match[1].length);
+      const decimals = match[1].includes('.') ? 1 : 0;
+      const counter = { n: 0 };
+      gsap.to(counter, {
+        n: end,
+        duration: 1.15,
+        delay: 0.12 + index * 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: bar,
+          start: 'top 90%',
+          once: true,
+        },
+        onUpdate: () => {
+          valueEl.textContent = `${prefix}${counter.n.toFixed(decimals)}${suffix}`;
+        },
+      });
+    });
+  }
+
+  private playCourses(trigger: string): void {
+    const cards = gsap.utils.toArray<HTMLElement>('.course-card');
+    if (!cards.length) {
+      return;
+    }
+    gsap.fromTo(
+      cards,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 0.55,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: document.querySelector(trigger) ?? cards[0],
+          start: 'top 88%',
+          once: true,
+        },
+      },
+    );
   }
 
   private playHero(): void {
