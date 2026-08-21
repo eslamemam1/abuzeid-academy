@@ -40,7 +40,7 @@ export class Courses {
     const year = this.studentYear();
     return year
       ? `أنت مسجّل في ${yearLabel(year)}، فهتظهر لك مواد السنة دي بس.`
-      : 'بكالوريا مصرية • نظام سنوي • شرح المهندس إسلام إمام';
+      : 'بكالوريا مصرية • نظام سنوي • شرح المهندس إسلام أبو زيد';
   });
 
   private readonly query = toSignal(

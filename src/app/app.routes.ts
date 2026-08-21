@@ -35,7 +35,7 @@ export const routes: Routes = [
     path: 'teacher',
     component: TeacherDashboard,
     canActivate: [authGuard, roleGuard('teacher')],
-    title: 'لوحة المهندس إسلام إمام | أكاديمية أبو زيد',
+    title: 'لوحة المهندس إسلام أبو زيد | أكاديمية أبو زيد',
   },
   {
     path: 'teacher/courses',

@@ -17,13 +17,29 @@ export class Home implements OnDestroy {
   private readonly motion = inject(MotionService);
 
   protected readonly academy = this.content.academy;
+  protected readonly heroLeadShort = 'برمجة وذكاء اصطناعي لأولى وتانية بكالوريا.';
   protected readonly featured = computed(() => this.coursesApi.getFeatured());
   protected readonly instructor = computed(() => this.content.instructors()[0] ?? null);
+  protected readonly aboutName = computed(() => this.instructor()?.name || 'المهندس إسلام أبو زيد');
+  protected readonly aboutRole = computed(
+    () => this.instructor()?.role || 'مؤسس أكاديمية أبو زيد',
+  );
   protected readonly whyFeatures = this.content.whyFeatures;
   protected readonly classTracks = this.content.classTracks;
   protected readonly faqs = this.content.faqs;
   protected readonly stats = this.content.stats;
   protected readonly aboutPills = this.content.aboutPills;
+  protected readonly aboutStory = [
+    'أنا المهندس إسلام أبو زيد، مؤسس أكاديمية أبو زيد.',
+    'بدرّس البرمجة والذكاء الاصطناعي لطلاب السنة الأولى والثانية بكالوريا في النظام السنوي المصري، بأسلوب واضح ومربوط بورقة الامتحان.',
+    'بنبدأ من الصفر: متغيرات، شروط، حلقات، ودوال. بعدين نمشي للمشاريع، OOP، هياكل البيانات، ومدخل الذكاء الاصطناعي. الهدف إنك تفهم وتكتب الكود بنفسك، مش تحفظه.',
+  ];
+  protected readonly aboutFacts = [
+    { title: 'التخصص', text: 'برمجة وذكاء اصطناعي' },
+    { title: 'المرحلة', text: 'أولى وتانية بكالوريا' },
+    { title: 'الأسلوب', text: 'كود وتمارين من أول حصة' },
+    { title: 'النظام', text: 'سنوي مربوط بالامتحان' },
+  ];
   protected readonly featuredTitle = computed(() => {
     const year = this.coursesApi.studentYear();
     return year ? `كورسات ${yearLabel(year)} المميزة` : 'كورساتنا المميزة';

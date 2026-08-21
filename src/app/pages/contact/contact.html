@@ -1,7 +1,7 @@
 <app-page-hero
   eyebrow="نحن قريبون منك"
   title="اتصل بنا"
-  subtitle="للتسجيل في مادة البرمجة أو الذكاء الاصطناعي، اترك رسالتك للمهندس إسلام إمام."
+  subtitle="للتسجيل في مادة البرمجة أو الذكاء الاصطناعي، اترك رسالتك للمهندس إسلام أبو زيد."
 />
 
 <section class="section">
@@ -17,7 +17,7 @@
     <app-panel title="إرسال رسالة">
       <form class="form" [formGroup]="form" (submit)="$event.preventDefault(); submit()">
         @if (sent()) {
-          <app-alert-banner message="تم إرسال رسالتك للمهندس إسلام إمام. هيتواصل معاك في أقرب وقت." />
+          <app-alert-banner message="تم إرسال رسالتك للمهندس إسلام أبو زيد. هيتواصل معاك في أقرب وقت." />
         }
         <app-alert-banner [error]="error()" />
 

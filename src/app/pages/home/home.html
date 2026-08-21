@@ -13,7 +13,8 @@
   <div class="hero-copy">
     <p class="hero-kicker">{{ academy().heroKicker }}</p>
     <h1>{{ academy().heroTitle }}</h1>
-    <p class="lead">{{ academy().heroLead }}</p>
+    <p class="lead hero-lead-full">{{ academy().heroLead }}</p>
+    <p class="lead hero-lead-short">{{ heroLeadShort }}</p>
     <p class="hero-code">{{ academy().heroCode }}</p>
     <div class="hero-actions">
       <a class="btn btn-primary" routerLink="/register">ابدأ من الصفر</a>
@@ -123,13 +124,34 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section about-section">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head about-head">
+      <span class="eyebrow">عن المدرس</span>
       <h2>{{ academy().aboutTitle }}</h2>
-      @if (instructor(); as person) {
-        <p>{{ person.bio }}</p>
-      }
+    </div>
+    <div class="about-grid">
+      <figure class="about-photo">
+        <img src="/islam.png?v=4" width="800" height="800" alt="المهندس إسلام أبو زيد" />
+        <figcaption>
+          <b>{{ aboutName() }}</b>
+          <span>{{ aboutRole() }}</span>
+        </figcaption>
+      </figure>
+      <div class="about-copy">
+        @for (line of aboutStory; track line) {
+          <p class="lead">{{ line }}</p>
+        }
+        <ul class="about-facts">
+          @for (item of aboutFacts; track item.title) {
+            <li>
+              <b>{{ item.title }}</b>
+              <span>{{ item.text }}</span>
+            </li>
+          }
+        </ul>
+        <a class="btn btn-primary about-more" routerLink="/about">اعرف أكتر عن الأكاديمية</a>
+      </div>
     </div>
     <div class="about-pills">
       @for (item of aboutPills(); track item.title) {

@@ -3,6 +3,7 @@ import { supabase } from '../core/supabase-client';
 import { DbCourse, YearLevel } from '../models/account';
 import { Course, CourseFilter, CourseType } from '../models/course';
 import { categoryLabel, typeLabel, yearLabel } from '../models/labels';
+import { asAbuzeidName } from '../models/content';
 import { AuthService } from './auth';
 
 export interface CourseInput {
@@ -144,7 +145,7 @@ export class CourseService {
       levelLabel: yearLabel(row.year_level),
       type,
       typeLabel: typeLabel(type),
-      instructor: row.instructor || 'م. إسلام إمام',
+      instructor: asAbuzeidName(row.instructor) || 'م. إسلام أبو زيد',
       price: Number(row.price ?? 0),
       duration: row.duration || 'نظام سنوي',
       date: row.course_date || 'العام الدراسي الحالي',

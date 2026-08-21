@@ -50,10 +50,16 @@ export interface AboutPill {
   text: string;
 }
 
+export function asAbuzeidName(value: string | null | undefined): string {
+  return (value ?? '')
+    .replaceAll('المهندس إسلام إمام (إسلام أبو زيد)', 'المهندس إسلام أبو زيد')
+    .replaceAll('إسلام إمام', 'إسلام أبو زيد');
+}
+
 export const EMPTY_ACADEMY: AcademyInfo = {
   name: 'أكاديمية أبو زيد',
-  founder: 'م. إسلام إمام',
-  founderFull: 'المهندس إسلام إمام (إسلام أبو زيد)',
+  founder: 'م. إسلام أبو زيد',
+  founderFull: 'المهندس إسلام أبو زيد',
   location: 'جمهورية مصر العربية',
   system: 'سنوي (بكالوريا)',
   tagline: 'برمجة وذكاء اصطناعي لطلاب السنة الأولى والثانية بكالوريا',

@@ -35,7 +35,8 @@ export class MotionService {
       this.reveal('.track-card', { y: 48, stagger: 0.12 }, '.tracks-section');
       this.reveal('.course-row .course-card', { y: 48, stagger: 0.08 });
       this.reveal('.lab', { y: 40 }, '.lab-section');
-      this.reveal('.about-pills .why-card', { y: 32, stagger: 0.1 });
+      this.reveal('.about-grid > *', { y: 36, stagger: 0.12 }, '.about-section');
+      this.reveal('.about-pills .why-card', { y: 32, stagger: 0.1 }, '.about-section');
       this.reveal('.faq-box', { y: 36 }, '.faq-section');
       this.playFloat();
       this.bindHover('.why-cards .why-card, .track-card, .course-card');
