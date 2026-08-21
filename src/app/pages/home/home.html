@@ -34,15 +34,16 @@
 </div>
 
 <section class="section why-section">
-  <div class="container why-grid">
-    <div>
+  <div class="container">
+    <div class="why-intro">
+      <span class="eyebrow">ليه الأكاديمية؟</span>
       <h2>{{ academy().whyTitle }}</h2>
       <p class="lead">{{ academy().whyLead }}</p>
     </div>
     <div class="why-cards">
-      @for (item of whyFeatures(); track item.title) {
+      @for (item of whyFeatures(); track item.title; let i = $index) {
         <article class="why-card">
-          <div class="icon-circle">&lt;/&gt;</div>
+          <div class="icon-circle">{{ whyIcon(i) }}</div>
           <h3>{{ item.title }}</h3>
           <p class="meta">{{ item.text }}</p>
         </article>

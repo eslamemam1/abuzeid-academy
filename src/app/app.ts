@@ -22,10 +22,14 @@ export class App {
       reveal.start();
       motion.start();
       const scan = () => reveal.scan();
-      router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
         queueMicrotask(scan);
         setTimeout(scan, 280);
         setTimeout(scan, 900);
+        const url = event.urlAfterRedirects || router.url;
+        if (url !== '/' && !url.startsWith('/?')) {
+          setTimeout(() => motion.enterPage(), 120);
+        }
       });
     });
   }
