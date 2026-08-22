@@ -4,7 +4,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { CourseService } from '../../services/course';
-import { AcademyContentService } from '../../services/academy-content';
 import { FILTERS, CourseFilter } from '../../models/course';
 import { yearLabel } from '../../models/labels';
 import { CourseCard, PageHero } from '../../shared';
@@ -16,12 +15,9 @@ import { CourseCard, PageHero } from '../../shared';
 })
 export class Courses {
   private readonly coursesApi = inject(CourseService);
-  private readonly content = inject(AcademyContentService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  protected readonly academy = this.content.academy;
-  protected readonly classTracks = this.content.classTracks;
   protected readonly search = new FormControl('', { nonNullable: true });
   protected readonly selectedCategory = signal<CourseFilter>('all');
   protected readonly studentYear = computed(() => this.coursesApi.studentYear());
@@ -64,17 +60,6 @@ export class Courses {
     if (this.isFilter(track)) {
       this.setCategory(track);
     }
-  }
-
-  protected startTrack(id: string): void {
-    if (this.isFilter(id)) {
-      this.setCategory(id);
-      void this.router.navigate([], {
-        queryParams: { track: id },
-        queryParamsHandling: 'merge',
-      });
-    }
-    document.getElementById('course-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   protected applySearch(): void {

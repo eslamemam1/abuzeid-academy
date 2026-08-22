@@ -56,9 +56,7 @@ export class MotionService {
         y: 34,
         stagger: 0.07,
       });
-      this.reveal('.track-card', { y: 36, stagger: 0.1 }, '.tracks-section');
       this.playCourses('.grid-4, .grid-3, .course-row');
-      this.bindHover('.track-card');
     });
 
     ScrollTrigger.refresh();
