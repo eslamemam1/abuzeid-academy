@@ -16,16 +16,8 @@
         <app-panel [title]="item.title">
           <span class="eyebrow">{{ item.levelLabel }} • {{ item.categoryLabel }}</span>
           <p class="lead">{{ item.description }}</p>
-          @if (videoSrc()) {
-            <div class="lecture-player">
-              <iframe
-                [src]="videoSrc()"
-                [title]="item.title"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            </div>
+          @if (item.videoUrl) {
+            <app-secure-player [src]="item.videoUrl" [title]="item.title" [watermark]="watermark()" />
           }
           @if (item.outcomes.length) {
             <h3 style="margin: 24px 0 10px; color: var(--navy);">ماذا ستتعلم؟</h3>

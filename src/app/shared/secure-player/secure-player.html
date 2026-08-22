@@ -1,0 +1,39 @@
+@if (kind() !== 'none') {
+  <div
+    #playerShell
+    class="lecture-player"
+    [class.is-fullscreen]="isFullscreen()"
+    (contextmenu)="blockCapture($event)"
+    (dragstart)="blockCapture($event)"
+  >
+    @if (kind() === 'youtube' && youtubeSrc()) {
+      <iframe
+        [src]="youtubeSrc()"
+        [title]="title()"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    } @else if (kind() === 'stream') {
+      <video
+        #secureVideo
+        class="secure-video"
+        controls
+        playsinline
+        disablepictureinpicture
+        controlslist="nodownload noplaybackrate noremoteplayback nofullscreen"
+        [attr.title]="title()"
+        (contextmenu)="blockCapture($event)"
+      ></video>
+    }
+    <div class="secure-watermark-grid" aria-hidden="true">
+      @for (copy of [1, 2, 3, 4, 5, 6]; track copy) {
+        <span>{{ watermark() }}</span>
+      }
+    </div>
+    <span class="lecture-watermark">{{ watermark() }}</span>
+    <button class="lecture-fs-btn" type="button" (click)="toggleFullscreen()">
+      {{ isFullscreen() ? 'إغلاق ملء الشاشة' : 'ملء الشاشة' }}
+    </button>
+  </div>
+  <p class="meta lecture-protect-note">المحتوى محمي بمشغّل آمن. التحميل غير متاح من الموقع.</p>
+}

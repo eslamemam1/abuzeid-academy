@@ -5,5 +5,6 @@ import { AlertBanner } from './alert-banner/alert-banner';
 import { StatCard } from './stat-card/stat-card';
 import { Panel } from './panel/panel';
 import { TeacherShell } from './teacher-shell/teacher-shell';
+import { SecurePlayer } from './secure-player/secure-player';
 
-export { CourseCard, PageHero, DashNav, AlertBanner, StatCard, Panel, TeacherShell };
+export { CourseCard, PageHero, DashNav, AlertBanner, StatCard, Panel, TeacherShell, SecurePlayer };

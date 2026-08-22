@@ -21,6 +21,7 @@
     "@supabase/supabase-js": "^2.112.3",
     "gsap": "^3.15.0",
     "rxjs": "~7.8.0",
+    "shaka-player": "^5.2.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
