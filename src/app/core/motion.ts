@@ -52,10 +52,11 @@ export class MotionService {
     }
 
     this.ctx = gsap.context(() => {
-      this.reveal('.page-hero, .panel, .cta-band, .footer-grid > *', {
+      this.reveal('.page-hero, .basics-page .section-head, .panel, .cta-band, .footer-grid > *', {
         y: 34,
         stagger: 0.07,
       });
+      this.reveal('.concept-card', { y: 28, stagger: 0.05 }, '.concept-grid');
       this.playCourses('.grid-4, .grid-3, .course-row');
     });
 
