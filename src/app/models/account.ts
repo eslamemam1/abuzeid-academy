@@ -31,6 +31,7 @@ export interface DbCourse {
   course_type: 'recorded' | 'online' | 'in-person';
   track?: string | null;
   video_url?: string | null;
+  is_free: boolean;
 }
 
 export interface Enrollment {

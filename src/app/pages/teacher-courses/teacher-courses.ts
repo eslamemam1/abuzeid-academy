@@ -26,6 +26,7 @@ export class TeacherCourses {
     category: ['programming' as DbCourse['category'], Validators.required],
     year_level: ['year1' as DbCourse['year_level'], Validators.required],
     description: [''],
+    is_free: [false],
   });
 
   constructor() {
@@ -48,6 +49,7 @@ export class TeacherCourses {
         category: 'programming',
         year_level: 'year1',
         description: '',
+        is_free: false,
       });
     } catch {
       this.error.set('تعذر إضافة المادة.');

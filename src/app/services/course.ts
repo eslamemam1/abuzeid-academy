@@ -11,6 +11,7 @@ export interface CourseInput {
   category: DbCourse['category'];
   year_level: YearLevel;
   description: string;
+  is_free?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -56,6 +57,8 @@ export class CourseService {
         category: input.category,
         year_level: input.year_level,
         description: input.description.trim() || null,
+        is_free: Boolean(input.is_free),
+        ...(input.is_free ? { price: 0 } : {}),
       })
       .select('*')
       .single();
@@ -139,8 +142,7 @@ export class CourseService {
   private mapCourse(row: DbCourse): Course {
     const type = (row.course_type || 'online') as CourseType;
     const videoUrl = row.video_url || null;
-    const rawPrice = Number(row.price ?? 0);
-    const isFree = Boolean(videoUrl) || row.track === 'basics' || !(rawPrice > 0);
+    const isFree = Boolean(row.is_free);
     return {
       id: row.slug || row.id,
       title: row.title,
@@ -151,7 +153,7 @@ export class CourseService {
       type,
       typeLabel: typeLabel(type),
       instructor: asAbuzeidName(row.instructor) || 'م. إسلام أبو زيد',
-      price: isFree ? 0 : rawPrice,
+      price: isFree ? 0 : Number(row.price ?? 0),
       duration: row.duration || 'نظام سنوي',
       date: row.course_date || 'العام الدراسي الحالي',
       students: Number(row.students ?? 0),

@@ -29,6 +29,10 @@
           الوصف
           <textarea formControlName="description" rows="4" placeholder="نبذة عن المادة للطلاب"></textarea>
         </label>
+        <label class="check-row">
+          <input type="checkbox" formControlName="is_free" />
+          كورس مجاني
+        </label>
         <button class="btn btn-primary" type="submit" [disabled]="saving()">
           {{ saving() ? 'جاري الحفظ...' : 'حفظ المادة' }}
         </button>
@@ -44,6 +48,7 @@
               <th>المادة</th>
               <th>التصنيف</th>
               <th>السنة</th>
+              <th>السعر</th>
               <th></th>
             </tr>
           </thead>
@@ -53,13 +58,14 @@
                 <td>{{ course.title }}</td>
                 <td>{{ categoryLabel(course.category) }}</td>
                 <td>{{ yearLabel(course.year_level) }}</td>
+                <td>{{ course.is_free ? 'مجاني' : course.price + ' ج.م' }}</td>
                 <td>
                   <button class="btn btn-danger" type="button" (click)="deleteCourse(course)">حذف</button>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="4">لا توجد مواد حتى الآن. أضف مادة من النموذج.</td>
+                <td colspan="5">لا توجد مواد حتى الآن. أضف مادة من النموذج.</td>
               </tr>
             }
           </tbody>

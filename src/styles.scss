@@ -746,6 +746,17 @@ p {
   box-shadow: 0 0 0 4px rgba(112, 49, 191, 0.25);
 }
 
+.form .check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form .check-row input {
+  width: auto;
+  padding: 0;
+}
+
 .success {
   background: var(--success-bg);
   color: var(--success-ink);
