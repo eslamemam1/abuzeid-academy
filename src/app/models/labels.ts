@@ -1,9 +1,12 @@
 export function yearLabel(level: string | null | undefined): string {
   if (level === 'year1') {
-    return 'سنة أولى بكالوريا';
+    return 'الصف الأول الثانوي';
   }
   if (level === 'year2') {
-    return 'سنة ثانية بكالوريا';
+    return 'الصف الثاني الثانوي';
+  }
+  if (level === 'basics') {
+    return 'مفاهيم أساسية';
   }
   return 'غير محددة';
 }

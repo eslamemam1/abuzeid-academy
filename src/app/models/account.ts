@@ -29,6 +29,7 @@ export interface DbCourse {
   featured: boolean;
   outcomes: string[];
   course_type: 'recorded' | 'online' | 'in-person';
+  track?: string | null;
 }
 
 export interface Enrollment {

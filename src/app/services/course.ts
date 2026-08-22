@@ -96,8 +96,9 @@ export class CourseService {
       const matchesYear = !lockedYear || course.level === lockedYear;
       const matchesFilter =
         filter === 'all' ||
+        course.track === filter ||
         course.category === filter ||
-        (!lockedYear && course.level === filter);
+        (!lockedYear && filter !== 'basics' && course.level === filter);
       const matchesQuery =
         !query ||
         course.title.includes(query) ||
@@ -120,7 +121,7 @@ export class CourseService {
     if (!year) {
       return [];
     }
-    return this.catalog().filter((course) => course.level === year);
+    return this.catalog().filter((course) => course.level === year || course.track === 'basics');
   }
 
   private slugFromTitle(title: string): string {
@@ -154,6 +155,9 @@ export class CourseService {
       rating: Number(row.rating ?? 5),
       lessons: Number(row.lessons ?? 0),
       featured: Boolean(row.featured),
+      track: (row.track === 'basics' || row.track === 'year1' || row.track === 'year2'
+        ? row.track
+        : row.year_level) as Course['track'],
       description: row.description || 'دورة برمجة وذكاء اصطناعي لطلاب البكالوريا.',
       outcomes: row.outcomes ?? [],
     };

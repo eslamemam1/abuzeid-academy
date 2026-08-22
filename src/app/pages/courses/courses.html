@@ -4,7 +4,33 @@
   [subtitle]="heroSubtitle()"
 />
 
-<section class="section">
+<section class="section tracks-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">{{ academy().tracksEyebrow }}</span>
+      <h2>{{ academy().tracksTitle }}</h2>
+      <p>{{ academy().tracksLead }}</p>
+    </div>
+    <div class="track-grid">
+      @for (track of classTracks(); track track.id; let i = $index) {
+        <article class="track-card" [class.is-featured]="selectedCategory() === track.id || (selectedCategory() === 'all' && i === 1)">
+          <div class="track-ide">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <pre>{{ track.code }}</pre>
+          </div>
+          <div class="track-body">
+            <p class="meta">{{ track.kicker }}</p>
+            <h3>{{ track.title }}</h3>
+            <p class="meta">{{ track.text }}</p>
+            <button class="btn btn-ghost" type="button" (click)="startTrack(track.id)">ابدأ المسار</button>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section" id="course-list">
   <div class="container">
     <form class="search-box" style="max-width: 100%;" (submit)="$event.preventDefault(); applySearch()">
       <input type="search" [formControl]="search" placeholder="ابحث باسم المادة: برمجة، OOP، تعلم آلة..." />

@@ -71,7 +71,7 @@
             <p class="meta">{{ track.kicker }}</p>
             <h3>{{ track.title }}</h3>
             <p class="meta">{{ track.text }}</p>
-            <a class="btn btn-ghost" routerLink="/courses">ابدأ المسار</a>
+            <a class="btn btn-ghost" [routerLink]="['/courses']" [queryParams]="{ track: track.id }">ابدأ المسار</a>
           </div>
         </article>
       }

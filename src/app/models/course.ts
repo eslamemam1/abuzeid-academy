@@ -1,7 +1,7 @@
 export type CourseType = 'recorded' | 'online' | 'in-person';
 export type CourseCategory = 'programming' | 'ai';
 export type CourseLevel = 'year1' | 'year2';
-export type CourseFilter = 'all' | CourseCategory | CourseLevel;
+export type CourseFilter = 'all' | CourseCategory | CourseLevel | 'basics';
 
 export interface Course {
   id: string;
@@ -10,6 +10,7 @@ export interface Course {
   categoryLabel: string;
   level: CourseLevel;
   levelLabel: string;
+  track: CourseFilter;
   type: CourseType;
   typeLabel: string;
   instructor: string;
@@ -32,8 +33,9 @@ export interface Instructor {
 
 export const FILTERS: { id: CourseFilter; label: string }[] = [
   { id: 'all', label: 'كل المواد' },
-  { id: 'year1', label: 'سنة أولى' },
-  { id: 'year2', label: 'سنة ثانية' },
+  { id: 'basics', label: 'مفاهيم أساسية' },
+  { id: 'year1', label: 'الصف الأول الثانوي' },
+  { id: 'year2', label: 'الصف الثاني الثانوي' },
   { id: 'programming', label: 'البرمجة' },
   { id: 'ai', label: 'الذكاء الاصطناعي' },
 ];
