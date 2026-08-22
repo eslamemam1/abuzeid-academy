@@ -1268,6 +1268,27 @@ html[data-theme='dark'] .site-header.is-scrolled {
   padding-top: 56px;
 }
 
+.lecture-player {
+  position: relative;
+  width: 100%;
+  max-width: 920px;
+  margin: 22px auto 0;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #12081f;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.lecture-player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .concept-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

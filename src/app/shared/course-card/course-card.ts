@@ -31,7 +31,7 @@ export class CourseCard {
     this.open.update((value) => !value);
   }
 
-  protected priceText(price: number): string {
-    return price > 0 ? `${price} جنيه` : 'مجاني';
+  protected priceText(price: number, isFree = false): string {
+    return isFree || !(price > 0) ? 'مجاني' : `${price} جنيه`;
   }
 }

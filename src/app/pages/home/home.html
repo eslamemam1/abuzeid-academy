@@ -72,7 +72,7 @@
             <h3>{{ track.title }}</h3>
             <p class="meta">{{ track.text }}</p>
             @if (track.id === 'basics') {
-              <a class="btn btn-ghost" routerLink="/basics">اعرف المفاهيم</a>
+              <a class="btn btn-ghost" routerLink="/courses/basics-programming">شاهد المحاضرة</a>
             } @else {
               <a class="btn btn-ghost" [routerLink]="['/courses']" [queryParams]="{ track: track.id }">ابدأ المسار</a>
             }

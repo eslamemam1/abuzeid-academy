@@ -1,7 +1,7 @@
 @if (course(); as item) {
   <article class="course-card">
     <div class="course-cover" [class]="item.category">
-      <span class="course-price-tag">{{ priceText(item.price) }}</span>
+      <span class="course-price-tag">{{ priceText(item.price, item.isFree) }}</span>
     </div>
     <div class="course-body">
       <h3>{{ item.title }}</h3>
@@ -27,8 +27,12 @@
         <p class="course-extra">{{ item.description }}</p>
       }
       <div class="course-actions">
-        <a class="btn btn-ghost" [routerLink]="['/courses', item.id]">الدخول للكورس</a>
-        <a class="btn btn-primary" routerLink="/register">الإشتراك في الكورس !</a>
+        @if (item.isFree) {
+          <a class="btn btn-primary" [routerLink]="['/courses', item.id]">شاهد المحاضرة</a>
+        } @else {
+          <a class="btn btn-ghost" [routerLink]="['/courses', item.id]">الدخول للكورس</a>
+          <a class="btn btn-primary" routerLink="/register">الإشتراك في الكورس !</a>
+        }
       </div>
     </div>
   </article>

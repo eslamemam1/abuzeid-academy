@@ -93,7 +93,7 @@ export class CourseService {
     const query = term.trim();
     const lockedYear = this.studentYear();
     return this.visibleCatalog().filter((course) => {
-      const matchesYear = !lockedYear || course.level === lockedYear;
+      const matchesYear = !lockedYear || course.level === lockedYear || course.track === 'basics';
       const matchesFilter =
         filter === 'all' ||
         course.track === filter ||
@@ -138,17 +138,20 @@ export class CourseService {
 
   private mapCourse(row: DbCourse): Course {
     const type = (row.course_type || 'online') as CourseType;
+    const videoUrl = row.video_url || null;
+    const rawPrice = Number(row.price ?? 0);
+    const isFree = Boolean(videoUrl) || row.track === 'basics' || !(rawPrice > 0);
     return {
       id: row.slug || row.id,
       title: row.title,
       category: row.category,
       categoryLabel: categoryLabel(row.category),
       level: row.year_level,
-      levelLabel: yearLabel(row.year_level),
+      levelLabel: row.track === 'basics' ? 'الصف الأول والثاني الثانوي' : yearLabel(row.year_level),
       type,
       typeLabel: typeLabel(type),
       instructor: asAbuzeidName(row.instructor) || 'م. إسلام أبو زيد',
-      price: Number(row.price ?? 0),
+      price: isFree ? 0 : rawPrice,
       duration: row.duration || 'نظام سنوي',
       date: row.course_date || 'العام الدراسي الحالي',
       students: Number(row.students ?? 0),
@@ -160,6 +163,8 @@ export class CourseService {
         : row.year_level) as Course['track'],
       description: row.description || 'دورة برمجة وذكاء اصطناعي لطلاب البكالوريا.',
       outcomes: row.outcomes ?? [],
+      videoUrl,
+      isFree,
     };
   }
 }

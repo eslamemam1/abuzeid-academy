@@ -23,6 +23,8 @@ export interface Course {
   description: string;
   outcomes: string[];
   featured?: boolean;
+  videoUrl?: string | null;
+  isFree: boolean;
 }
 
 export interface Instructor {

@@ -30,6 +30,7 @@ export interface DbCourse {
   outcomes: string[];
   course_type: 'recorded' | 'online' | 'in-person';
   track?: string | null;
+  video_url?: string | null;
 }
 
 export interface Enrollment {

@@ -16,6 +16,17 @@
         <app-panel [title]="item.title">
           <span class="eyebrow">{{ item.levelLabel }} • {{ item.categoryLabel }}</span>
           <p class="lead">{{ item.description }}</p>
+          @if (videoSrc()) {
+            <div class="lecture-player">
+              <iframe
+                [src]="videoSrc()"
+                [title]="item.title"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          }
           @if (item.outcomes.length) {
             <h3 style="margin: 24px 0 10px; color: var(--navy);">ماذا ستتعلم؟</h3>
             <ul class="outcomes">
@@ -28,11 +39,15 @@
 
         <aside>
           <app-panel>
-            <p class="price">{{ item.price > 0 ? item.price + ' ج.م' : 'أونلاين' }}</p>
+            <p class="price">{{ item.isFree ? 'مجاني' : item.price + ' ج.م' }}</p>
             <p class="meta">{{ item.levelLabel }}</p>
             <p class="meta">{{ item.categoryLabel }}</p>
             <p class="meta">المدة: {{ item.duration }}</p>
-            <a class="btn btn-primary" style="width: 100%; margin-top: 18px;" routerLink="/login">سجّل في الدورة</a>
+            @if (item.isFree) {
+              <p class="meta" style="margin-top: 18px;">المحاضرة مجانية وتقدر تتفرج عليها من هنا من غير اشتراك.</p>
+            } @else {
+              <a class="btn btn-primary" style="width: 100%; margin-top: 18px;" routerLink="/login">سجّل في الدورة</a>
+            }
           </app-panel>
         </aside>
       </div>
